@@ -13,19 +13,42 @@
 #ifndef FDF_H
 # define FDF_H
 
-//numbers
-# define HEIGHT 1995 //2000 Altura 988 portatil
-# define WIDTH 3840 //1080 Anchura 1905 POrtatil
+//dimensions
+# define HEIGHT 988 //1995 Altura 988 portatil
+# define WIDTH 1905 //3840 Anchura 1905 POrtatil
 # define W_MENU 300 //300 Anchura Menu
-# define HCENTER 998
-# define WCENTER 1920
-# define PRUEBA0 100
-# define PRUEBA1 100
+# define HCENTER 449 //998 ANCHURA CENTRO, 499 portatil
+# define WCENTER 960 //1920 Altura Centro, 960 portatil
+/*Comprobar dimensiones del menu
+PORTATIL:
+void	print_menu(t_cwin *cw)
+{
+	mlx_string_put(cw->mlx, cw->window, 50, 50, WHITE, "MENU");
+	mlx_string_put(cw->mlx, cw->window, 50, 600, WHITE, "CONTROLS:");
+	mlx_string_put(cw->mlx, cw->window, 50, 630, WHITE, "- PRESS SCAPE:");
+	mlx_string_put(cw->mlx, cw->window, 165, 630, GREEN, "EXIT");
+	mlx_string_put(cw->mlx, cw->window, 50, 660, WHITE, "- CLICK X:");
+	mlx_string_put(cw->mlx, cw->window, 135, 660, GREEN, "EXIT");
+	mlx_string_put(cw->mlx, cw->window, 50, 690, WHITE, "- SCROLL:");
+	mlx_string_put(cw->mlx, cw->window, 130, 690, GREEN, "ZOOM IN/OUT");
+	mlx_string_put(cw->mlx, cw->window, 50, 720, WHITE, "- SPACE:");
+	mlx_string_put(cw->mlx, cw->window, 120, 720, GREEN, "**********************");
+	mlx_string_put(cw->mlx, cw->window, 50, 750, WHITE, "- LEFT CLICK:");
+	mlx_string_put(cw->mlx, cw->window, 160, 750, GREEN, "MOVE");
+	mlx_string_put(cw->mlx, cw->window, 50, 780, WHITE, "- ARROWS:");
+	mlx_string_put(cw->mlx, cw->window, 128, 780, GREEN, "ROTATE X/Y");
+	mlx_string_put(cw->mlx, cw->window, 50, 810, WHITE, "- RIGHT CLICK:");
+	mlx_string_put(cw->mlx, cw->window, 165, 810, GREEN, "ROTATE Z");
+}
+42:
+*/
 
 //errors
 # define MEMORY_ERROR 1 //Errores de memoria
 # define ARGS_ERROR 1 //Error en los argumentos
 # define FD_ERROR 1 //Error al abrir el archivo
+# define MAP_ERROR 1 //Error al leer el mapa
+# define ERROR_READING 1 //Error de lectura
 
 //colors
 //añadiendo 0x + https://www.color-hex.com/color/eaeaea
@@ -58,6 +81,19 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
+typedef struct			s_coord_val
+{
+	int					z;
+	int					color;
+	struct s_coord_val	*next;
+}						t_coord_val;
+
+typedef struct			s_dimension
+{
+	int		v_x;
+	int		v_y;
+	int		total;
+}			t_dim;
 
 //menu
 void	img_pix_put(t_img *img, int x, int y, int color);
@@ -72,5 +108,7 @@ int		clean_and_close(t_cwin *cw);
 //line
 void	draw_line(t_cwin *cw, t_img *i, int color);
 void	line(t_cwin *cw);
+
+int read_data(void);
 
 #endif

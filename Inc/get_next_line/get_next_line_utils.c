@@ -3,117 +3,110 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 19:08:35 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/08/21 18:57:11 by fgalvez-         ###   ########.fr       */
+/*   Created: 2024/09/20 14:04:18 by fgalvez-          #+#    #+#             */
+/*   Updated: 2024/11/19 18:10:32 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "../libft/libft.h"
 
-void	prepare_the_recall(t_list	**list)
-{
-	t_list	*last;
-	t_list	*clean;
-	int		i;
-	int		k;
-	char	*buf;
-
-	buf = malloc(BUFFER_SIZE + 1);
-	clean = malloc(sizeof(t_list));
-	if (NULL == buf || NULL == clean)
-		return ;
-	last = look_for_end(*list);
-	if (last == NULL)
-	{
-		free(buf);
-		free(clean);
-		return ;
-	}
-	i = 0;
-	k = 0;
-	while (last->buffer_str[i] && last->buffer_str[i] != '\n')
-		++i;
-	if (last->buffer_str[i] == EOF)
-		return ;
-	while (last->buffer_str[i] && last->buffer_str[++i])
-		buf[k++] = last->buffer_str[i];
-	buf[k] = '\0';
-	clean->buffer_str = buf;
-	clean->next_bs = NULL;
-	cancel_mem(list, clean, buf);
-}
-
-char	*get_the_line(t_list *list)
-{
-	int		stringlen;
-	char	*next_string;
-
-	stringlen = len_for_endline(list);
-	next_string = malloc(sizeof(char) * (stringlen + 1));
-	if (next_string == NULL)
-		return (NULL);
-	str_cpy(list, next_string);
-	return (next_string);
-}
-
-void	add_string_to_list(t_list	**list, char *buffer)
-{
-	t_list	*new_element;
-	t_list	*last_element;
-
-	last_element = look_for_end(*list);
-	new_element = malloc(sizeof(t_list));
-	if (new_element == NULL)
-		return ;
-	if (last_element == NULL)
-		*list = new_element;
-	else
-		last_element->next_bs = new_element;
-	new_element -> buffer_str = buffer;
-	new_element -> next_bs = NULL;
-}
-
-int	look_for_newline(t_list *list)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
-	if (NULL == list)
+	i = 0;
+	if (!s)
 		return (0);
-	while (list)
+	while (s[i] != '\0')
 	{
-		i = 0;
-		while (list->buffer_str[i] && i < BUFFER_SIZE)
-		{
-			if (list->buffer_str[i] == '\n')
-				return (1);
-			++i;
-		}
-		list = list->next_bs;
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
 	return (0);
 }
 
-void	cancel_mem(t_list **list, t_list *clean, char *buf)
+char	*ft_strjoin(char *org_str, char *bff)
 {
-	t_list	*tmp;
+	size_t	i;
+	size_t	n;
+	char	*str;
 
-	if (NULL == *list)
-		return ;
-	while (*list)
+	if (!org_str)
 	{
-		tmp = (*list)->next_bs;
-		free((*list)->buffer_str);
-		free(*list);
-		*list = tmp;
+		org_str = (char *)malloc(1 * sizeof(char));
+		org_str[0] = '\0';
 	}
-	*list = NULL;
-	if (clean->buffer_str[0])
-		*list = clean;
-	else
+	if (!org_str || !bff)
+		return (NULL);
+	str = malloc(sizeof(char) * ((ft_strlen(org_str) + ft_strlen(bff)) + 1));
+	if (str == NULL)
+		return (NULL);
+	i = -1;
+	n = 0;
+	if (org_str)
+		while (org_str[++i] != '\0')
+			str[i] = org_str[i];
+	while (bff[n] != '\0')
+		str[i++] = bff[n++];
+	str[ft_strlen(org_str) + ft_strlen(bff)] = '\0';
+	free(org_str);
+	return (str);
+}
+
+char	*ft_line(char *str)
+{
+	int		i;
+	char	*nw;
+
+	i = 0;
+	if (!str[i])
+		return (NULL);
+	while (str[i] && str[i] != '\n')
+		i++;
+	nw = (char *)malloc(sizeof(char) * (i + 2));
+	if (!nw)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != '\n')
 	{
-		free(buf);
-		free(clean);
+		nw[i] = str[i];
+		i++;
 	}
+	if (str[i] == '\n')
+	{
+		nw[i] = str[i];
+		i++;
+	}
+	nw[i] = '\0';
+	return (nw);
+}
+
+char	*ft_nextstr(char *str)
+{
+	int		i;
+	int		n;
+	char	*nw;
+
+	i = 0;
+	while (str[i] && str[i] != '\n')
+		i++;
+	if (!str[i])
+	{
+		free(str);
+		return (NULL);
+	}
+	nw = (char *) malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!nw)
+		return (NULL);
+	i++;
+	n = 0;
+	while (str[i])
+		nw[n++] = str[i++];
+	nw[n] = '\0';
+	free(str);
+	return (nw);
 }

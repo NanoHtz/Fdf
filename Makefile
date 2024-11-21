@@ -35,6 +35,7 @@ SOURCES = fdf.c \
 		events.c \
 		menu.c \
 		line.c \
+		read_data.c \
 		Inc/get_next_line/*.c \
 		Inc/libft/*.c
 

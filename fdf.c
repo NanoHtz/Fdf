@@ -31,7 +31,7 @@ https://web.archive.org/web/20160408133525/http://freespace.virgin.net/hugo.elia
 t_cwin	*init()
 {
 	t_cwin		*cw;
-	
+
 	cw = malloc(sizeof(t_cwin));
 	if (cw == NULL)
 		return (NULL);
@@ -54,7 +54,7 @@ t_cwin	*init()
 int	main(int argc, char **argv)
 {
 	t_cwin		*cw;
-	
+
 	if (argc != 2)//Comprobación de los argumentos
 		return (ARGS_ERROR);
 	printf("\nEl argumento introducido es : %s\n", argv[1]);
@@ -62,10 +62,10 @@ int	main(int argc, char **argv)
 	cw = init();//Inicializamos la minilibx y la ventana.
 	if (cw == NULL)
 		return(1);
-		
-	//read_data();
+
 	menu(cw);
 	line(cw);
+	read_data();
 	events(cw);
 	clean_and_close(cw);
 }

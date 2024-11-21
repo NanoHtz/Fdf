@@ -45,21 +45,21 @@ void	draw_menu(t_cwin *cw, t_img *i, int color)
 void	print_menu(t_cwin *cw)
 {
 	mlx_string_put(cw->mlx, cw->window, 50, 50, WHITE, "MENU");
-	mlx_string_put(cw->mlx, cw->window, 50, 1690, WHITE, "CONTROLS:");
-	mlx_string_put(cw->mlx, cw->window, 50, 1720, WHITE, "- PRESS SCAPE:");
-	mlx_string_put(cw->mlx, cw->window, 165, 1720, GREEN, "EXIT");
-	mlx_string_put(cw->mlx, cw->window, 50, 1750, WHITE, "- CLICK X:");
-	mlx_string_put(cw->mlx, cw->window, 135, 1750, GREEN, "EXIT");
-	mlx_string_put(cw->mlx, cw->window, 50, 1780, WHITE, "- SCROLL:");
-	mlx_string_put(cw->mlx, cw->window, 130, 1780, GREEN, "ZOOM IN/OUT");
-	mlx_string_put(cw->mlx, cw->window, 50, 1810, WHITE, "- SPACE:");
-	mlx_string_put(cw->mlx, cw->window, 120, 1810, GREEN, "**********************");
-	mlx_string_put(cw->mlx, cw->window, 50, 1840, WHITE, "- LEFT CLICK:");
-	mlx_string_put(cw->mlx, cw->window, 160, 1840, GREEN, "MOVE");
-	mlx_string_put(cw->mlx, cw->window, 50, 1870, WHITE, "- ARROWS:");
-	mlx_string_put(cw->mlx, cw->window, 128, 1870, GREEN, "ROTATE X/Y");
-	mlx_string_put(cw->mlx, cw->window, 50, 1900, WHITE, "- RIGHT CLICK:");
-	mlx_string_put(cw->mlx, cw->window, 165, 1900, GREEN, "ROTATE Z");
+	mlx_string_put(cw->mlx, cw->window, 50, 600, WHITE, "CONTROLS:");
+	mlx_string_put(cw->mlx, cw->window, 50, 630, WHITE, "- PRESS SCAPE:");
+	mlx_string_put(cw->mlx, cw->window, 165, 630, GREEN, "EXIT");
+	mlx_string_put(cw->mlx, cw->window, 50, 660, WHITE, "- CLICK X:");
+	mlx_string_put(cw->mlx, cw->window, 135, 660, GREEN, "EXIT");
+	mlx_string_put(cw->mlx, cw->window, 50, 690, WHITE, "- SCROLL:");
+	mlx_string_put(cw->mlx, cw->window, 130, 690, GREEN, "ZOOM IN/OUT");
+	mlx_string_put(cw->mlx, cw->window, 50, 720, WHITE, "- SPACE:");
+	mlx_string_put(cw->mlx, cw->window, 120, 720, GREEN, "**********************");
+	mlx_string_put(cw->mlx, cw->window, 50, 750, WHITE, "- LEFT CLICK:");
+	mlx_string_put(cw->mlx, cw->window, 160, 750, GREEN, "MOVE");
+	mlx_string_put(cw->mlx, cw->window, 50, 780, WHITE, "- ARROWS:");
+	mlx_string_put(cw->mlx, cw->window, 128, 780, GREEN, "ROTATE X/Y");
+	mlx_string_put(cw->mlx, cw->window, 50, 810, WHITE, "- RIGHT CLICK:");
+	mlx_string_put(cw->mlx, cw->window, 165, 810, GREEN, "ROTATE Z");
 }
 void	menu(t_cwin *cw)
 {

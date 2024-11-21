@@ -1,9 +1,0 @@
-int main()
-{
-	char **split;
-	char s = "Hola caracola";
-
-	split = ft_split(s, ' ');
-	//free(split);
-	return (1);
-}
