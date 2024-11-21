@@ -3,167 +3,192 @@
 /*                                                        :::      ::::::::   */
 /*   read_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/19 14:11:06 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:51:14 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdlib.h>
 
-int	get_width(char *line)
+int ft_count_numbers(char *str)
 {
-	int		i;
-	int		k;
+	int	i;
+	int k;
 
-	k = 0;
 	i = 0;
-	if(!line)
-		return(ERROR_READING);
-
-	while(line[i] != '\0')
+	k = 0;
+	while(str[i] != '\0')
 	{
-		if(line[i] == 32)
+		if(str[i] == 32)
 		{
-			while(line[i] == 32)
-				i++;
 			k++;
+			while(str[i] == 32)
+				i++;
 		}
 		i++;
 	}
 	return(k + 1);
 }
 
-char	**take_numbers(char *line, t_dim dim)
+char **mem_for_numbers(t_dim dim)
 {
-	char	**coords;
-	int		i;
-	int		k;
-	int		j;
+	char	**number;
+	int		y;
 
-	k = 0;
-	i = 0;
-	j = 0;
-	//if(!line)
-		//return(ERROR_READING);
-	coords = malloc(sizeof(char *) * dim.v_x);
-	if(coords == NULL)
-		return NULL;
-
-	while(k < dim.v_x)
+	y = 0;
+	number = malloc(sizeof(char *) * (dim.x + 1));
+	if(!number)
+		return(NULL);
+	while( y < dim.x)
 	{
-		coords[k] = malloc(sizeof(char) * 30); // Asumiendo un tamaño máximo por número.
-		if (!coords[k])
+		number[y] = malloc(sizeof(char) * 30);//30 es arbitrario, 1 por cada caracter posible en el string que guarda el numero.
+		if (number[y] == NULL)
 		{
-    		while (k >= 0)
-        		free(coords[k--]);
-    		free(coords);
-    		return (NULL);
+			while(y >= 0)
+			{
+				free(number[y]);
+				y--;
+			}
+			free(number);
+			return (NULL);
 		}
-		k++;
+		y++;
 	}
+	return(number);
+}
 
-	k = 0;
+t_dim	take_dimensions(int fd)
+{
+	char	*line;
+	t_dim	dim;
+	
+	while ((line = get_next_line(fd)) != NULL)
+	{
+		dim.x = ft_count_numbers(line);
+		dim.y++;
+		free(line);
+	}
+	dim.total = dim.x * dim.y;
+	return(dim);
+}
+
+
+char **ft_take_numbers(char **number,char *line)
+{
+	int		i;
+	int		h;
+	int		y;
+	
+	i = 0;
+	h = 0;
+	y = 0;
 	while(line[i] != '\0')
 	{
+		number[y][h] = line[i];
 		if(line[i] == 32)
 		{
-			coords[k][j] = '\0';
-			j = 0;
-			k++;
+			number[y][h] = '\0';
+			h = 0;
+			y++;
 			while(line[i] == 32)
 				i++;
 		}
-		else
-		{
-			coords[k][j] = line[i];
-			i++;
-			j++;
-		}
+		number[y][h] = line[i];
+		i++;
+		h++;
 	}
-	coords[k][j] = '\0';
-	return(coords);
+	number[y][h] = '\0';
+	number[++y] = NULL;
+	return(number);
 }
 
-t_dim take_dim_and_data(int fd, t_dim dim)
+int	*ft_atoi_in_line(char **m_num, t_dim dim)
 {
-	char	***numbers;
-	char	**number;
+	int *numbers;
+	int	i;
+	
+	i = 0;
+	numbers = malloc((sizeof(int) * dim.x));
+	if(!numbers)
+		free(numbers);
+	while(i < dim.x)
+	{
+		numbers[i] = ft_atoi(m_num[i]);
+		i++;
+	}
+	return(numbers);
+}
+
+t_cords	*coords_on_line(int *numbers, t_dim dim)
+{
+	t_cords *cords;
+	int		i;
+
+	i = 0;
+	cords = malloc((sizeof(t_cords) * dim.x));
+	if(!cords)
+		free(cords);
+
+	while(i < dim.x)
+	{
+		cords[i].z = numbers[i];
+		cords[i].x = i;
+		i++;
+	}
+	return(cords);
+}
+
+t_cords *take_numbers_on_line(t_dim dim, int fd)
+{
+	char	**m_num;
 	char	*line;
-	int		k;
-	int		y;
-    int		line_capacity;
-
-	dim.v_y = 0;
-	line_capacity = 10;
-	line = get_next_line(fd);
-	if(!line)
-		return(dim);
-	dim.v_x = get_width(line);
-	free(line);
-
-	numbers = malloc(sizeof(char **) * line_capacity); // Asumimos 1000 líneas máximo. Puedes ajustar dinámicamente si es necesario.
-	if (!numbers)
-		return (dim);
-
+	int		*numbers;
+	int		i;
+	t_cords	*cords;
+	
+	i = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
-		if (dim.v_y >= line_capacity)
-        {
-            line_capacity *= 2;
-            numbers = realloc(numbers, sizeof(char **) * line_capacity);
-            if (!numbers)
-                return (dim);
-        }
-
-		number = take_numbers(line, dim);
-		if (!number)
+		m_num = mem_for_numbers(dim);
+		if (!m_num)
 		{
 			free(line);
-			while (dim.v_y > 0)
-			{
-				dim.v_y--;
-				for (k = 0; k < dim.v_x; k++)
-					free(numbers[dim.v_y][k]);
-				free(numbers[dim.v_y]);
-			}
-			free(numbers);
-			return (dim);
+			return NULL;
 		}
-		numbers[dim.v_y] = number;
-		free(line);
-		dim.v_y++;
-	}
-
-	y = 0;
-	while (k < dim.v_x)
-	{
-		k = 0;
-		printf("Línea %d:\n", y + 1);
-		while (k < dim.v_x && numbers[y][k]) // Imprimir cada número de la línea.
+		
+		m_num= ft_take_numbers(m_num,line);
+		if (!m_num)
 		{
-			printf("%s ", numbers[y][k]);
-			free(numbers[y][k]); // Liberar cada número.
-			k++;
+			free(line);
+			return NULL;
 		}
-		free(numbers[y]); // Liberar la línea completa.
-		printf("\n");
-		y++;
+		free(line);
+		numbers = ft_atoi_in_line(m_num, dim);
+		if (!numbers)
+		{
+			free(m_num);
+			return NULL;
+		}
+		free(m_num);
+		cords = coords_on_line(numbers, dim);
+		cords[i].y++;
+		if (!cords)
+		{
+			free(cords);
+			return NULL;
+		}
+		free(numbers);
 	}
-	free(numbers);
-
-	printf("\nEl número de lineas es: %d\n", dim.v_y);
-	printf("\nNumeros por linea: %d\n", dim.v_x);
-	printf("\nElementos totales de la matriz: %d\n", dim.v_x * dim.v_y);
-	return (dim);
+	return(cords);
 }
 
 int read_data(void)
 {
-	int		fd;
-	t_dim	dim;
+	int			fd;
+	t_dim		dim;
 
 	fd = open("42.fdf", O_RDONLY);
     if (fd == -1)
@@ -171,7 +196,9 @@ int read_data(void)
         perror("Error opening file");
         return 1;
     }
-	dim = take_dim_and_data(fd, dim);
+	dim = take_dimensions(fd);//Se aplica para todo el archivo
+	printf("Las dimensiones son:\nNúmero de líneas(y) = %d\nNumero de elementos por línea(x) = %d\nPuntos totales(y*x) = %d\n", dim.y, dim.x, dim.total);
+	take_numbers_on_line(dim, fd);
 	close(fd);
 	return(0);
 }

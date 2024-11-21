@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:46:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/12 19:09:21 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:20:34 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,19 +81,19 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-typedef struct			s_coord_val
-{
-	int					z;
-	int					color;
-	struct s_coord_val	*next;
-}						t_coord_val;
-
 typedef struct			s_dimension
 {
-	int		v_x;
-	int		v_y;
+	int		x;
+	int		y;
 	int		total;
 }			t_dim;
+
+typedef struct			s_coords
+{
+	int		x;
+	int		y;
+	int		z;
+}			t_cords;
 
 //menu
 void	img_pix_put(t_img *img, int x, int y, int color);

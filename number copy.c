@@ -1,6 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i] != '\0')
+		i++;
+	return(i);
+}
+
+int ft_count_numbers(char *str)
+{
+	int	i;
+	int k;
+
+	i = 0;
+	k = 0;
+	while(str[i] != '\0')
+	{
+		if(str[i] == 32)
+		{
+			k++;
+			while(str[i] == 32)
+				i++;
+		}
+		i++;
+	}
+	return(k + 1);
+}
+
 char **ft_take_numbers(char *str)
 {
 	char	**number;
@@ -62,7 +92,11 @@ int	main(void)
 	int		i;
 
 	line = "0 0 10 10 0 0 10 1001 0 0 0 0 0 0 0 10 10 0 0";
-
+	n = ft_strlen(line);
+	printf("El número de caracteres es: %d\n", n);
+	n = ft_count_numbers(line);
+	printf("El numero numeros es: %d\n", n);
+	//check
 	i = 0;
 	numbers = ft_take_numbers(line);//error
 	while(i < n)
