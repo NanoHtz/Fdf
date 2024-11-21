@@ -6,12 +6,14 @@
 /*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/21 17:51:14 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:59:13 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <stdlib.h>
+
+//https://github.com/ignacioviseras/Fdf/blob/main/params.c
 
 int ft_count_numbers(char *str)
 {
@@ -60,11 +62,14 @@ char **mem_for_numbers(t_dim dim)
 	return(number);
 }
 
-t_dim	take_dimensions(int fd)
+t_dim take_dimensions(int fd)
 {
 	char	*line;
 	t_dim	dim;
-	
+
+	dim.x = 0;
+	dim.y = 0;
+	dim.total = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		dim.x = ft_count_numbers(line);
@@ -141,15 +146,15 @@ t_cords	*coords_on_line(int *numbers, t_dim dim)
 	return(cords);
 }
 
-t_cords *take_numbers_on_line(t_dim dim, int fd)
+char **take_numbers_on_line(t_dim dim, int fd)//t_cords *
 {
 	char	**m_num;
 	char	*line;
-	int		*numbers;
-	int		i;
-	t_cords	*cords;
+	//int		*numbers;
+	//int		i;
+	//t_cords	*cords;
 	
-	i = 0;
+	//i = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		m_num = mem_for_numbers(dim);
@@ -166,6 +171,9 @@ t_cords *take_numbers_on_line(t_dim dim, int fd)
 			return NULL;
 		}
 		free(line);
+		
+		
+		/*
 		numbers = ft_atoi_in_line(m_num, dim);
 		if (!numbers)
 		{
@@ -181,14 +189,17 @@ t_cords *take_numbers_on_line(t_dim dim, int fd)
 			return NULL;
 		}
 		free(numbers);
+		*/
 	}
-	return(cords);
+	return(m_num);//cords
 }
 
 int read_data(void)
 {
 	int			fd;
 	t_dim		dim;
+	char		**m_num;
+	//t_cords		*cords;
 
 	fd = open("42.fdf", O_RDONLY);
     if (fd == -1)
@@ -198,7 +209,15 @@ int read_data(void)
     }
 	dim = take_dimensions(fd);//Se aplica para todo el archivo
 	printf("Las dimensiones son:\nNúmero de líneas(y) = %d\nNumero de elementos por línea(x) = %d\nPuntos totales(y*x) = %d\n", dim.y, dim.x, dim.total);
-	take_numbers_on_line(dim, fd);
+	printf("**************************************************     VALGRIND     **************************************************\n");
+	m_num = take_numbers_on_line(dim, fd);
+	for (int i = 0; i < 19; i++) {
+	    printf("%s", m_num[i]); // Dentro de los límites.
+	}
+	//cords = take_numbers_on_line(dim, fd);
+	//printf("Las coordenadas son: %d(x),%d(y), %d(z)", cords->x, cords->y, cords->z);
+	//free(cords);
+	//free(m_num);
 	close(fd);
-	return(0);
+	return(0); 
 }
