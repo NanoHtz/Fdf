@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/21 18:59:13 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/26 22:21:34 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,209 +15,89 @@
 
 //https://github.com/ignacioviseras/Fdf/blob/main/params.c
 
-int ft_count_numbers(char *str)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
+{
+	unsigned int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		(*f)(i, &s[i]);
+		i++;
+	}
+}
+
+void put_space(unsigned int i, char *s)
+{
+	(void)i;
+	if (*s == '\n')
+		*s = ' ';
+}
+
+void	free_arr(char **arr)
 {
 	int	i;
-	int k;
 
 	i = 0;
-	k = 0;
-	while(str[i] != '\0')
+	while (arr[i] != NULL)
 	{
-		if(str[i] == 32)
-		{
-			k++;
-			while(str[i] == 32)
-				i++;
-		}
+		free(arr[i]);
 		i++;
 	}
-	return(k + 1);
+	free(arr);
 }
 
-char **mem_for_numbers(t_dim dim)
+int	columns(char *str)
 {
-	char	**number;
-	int		y;
+	char	*aux;
+	char	**split_spaces;
+	int		c;
 
-	y = 0;
-	number = malloc(sizeof(char *) * (dim.x + 1));
-	if(!number)
-		return(NULL);
-	while( y < dim.x)
-	{
-		number[y] = malloc(sizeof(char) * 30);//30 es arbitrario, 1 por cada caracter posible en el string que guarda el numero.
-		if (number[y] == NULL)
-		{
-			while(y >= 0)
-			{
-				free(number[y]);
-				y--;
-			}
-			free(number);
-			return (NULL);
-		}
-		y++;
-	}
-	return(number);
+	aux = ft_strdup(str);
+	c = 0;
+	ft_striteri(aux, put_space);
+	split_spaces = ft_split(aux, ' ');//Comprobar aqui si son difitos y el formato ?
+	free(aux);
+	while(split_spaces[c] != NULL)
+		c++;
+	free_arr(split_spaces);
+	return(c);
 }
 
-t_dim take_dimensions(int fd)
-{
-	char	*line;
-	t_dim	dim;
-
-	dim.x = 0;
-	dim.y = 0;
-	dim.total = 0;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		dim.x = ft_count_numbers(line);
-		dim.y++;
-		free(line);
-	}
-	dim.total = dim.x * dim.y;
-	return(dim);
-}
-
-
-char **ft_take_numbers(char **number,char *line)
-{
-	int		i;
-	int		h;
-	int		y;
-	
-	i = 0;
-	h = 0;
-	y = 0;
-	while(line[i] != '\0')
-	{
-		number[y][h] = line[i];
-		if(line[i] == 32)
-		{
-			number[y][h] = '\0';
-			h = 0;
-			y++;
-			while(line[i] == 32)
-				i++;
-		}
-		number[y][h] = line[i];
-		i++;
-		h++;
-	}
-	number[y][h] = '\0';
-	number[++y] = NULL;
-	return(number);
-}
-
-int	*ft_atoi_in_line(char **m_num, t_dim dim)
-{
-	int *numbers;
-	int	i;
-	
-	i = 0;
-	numbers = malloc((sizeof(int) * dim.x));
-	if(!numbers)
-		free(numbers);
-	while(i < dim.x)
-	{
-		numbers[i] = ft_atoi(m_num[i]);
-		i++;
-	}
-	return(numbers);
-}
-
-t_cords	*coords_on_line(int *numbers, t_dim dim)
-{
-	t_cords *cords;
-	int		i;
-
-	i = 0;
-	cords = malloc((sizeof(t_cords) * dim.x));
-	if(!cords)
-		free(cords);
-
-	while(i < dim.x)
-	{
-		cords[i].z = numbers[i];
-		cords[i].x = i;
-		i++;
-	}
-	return(cords);
-}
-
-char **take_numbers_on_line(t_dim dim, int fd)//t_cords *
-{
-	char	**m_num;
-	char	*line;
-	//int		*numbers;
-	//int		i;
-	//t_cords	*cords;
-	
-	//i = 0;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		m_num = mem_for_numbers(dim);
-		if (!m_num)
-		{
-			free(line);
-			return NULL;
-		}
-		
-		m_num= ft_take_numbers(m_num,line);
-		if (!m_num)
-		{
-			free(line);
-			return NULL;
-		}
-		free(line);
-		
-		
-		/*
-		numbers = ft_atoi_in_line(m_num, dim);
-		if (!numbers)
-		{
-			free(m_num);
-			return NULL;
-		}
-		free(m_num);
-		cords = coords_on_line(numbers, dim);
-		cords[i].y++;
-		if (!cords)
-		{
-			free(cords);
-			return NULL;
-		}
-		free(numbers);
-		*/
-	}
-	return(m_num);//cords
-}
-
-int read_data(void)
+int read_data(t_content *content, char	*file_name)
 {
 	int			fd;
-	t_dim		dim;
-	char		**m_num;
-	//t_cords		*cords;
+	char 		*file;//Puedo llamarlo de otra forma??
+	int			error;
 
-	fd = open("42.fdf", O_RDONLY);
+	fd = open(file_name, O_RDONLY);//deberia añadir mas flags al open?
     if (fd == -1)
-    {
-        perror("Error opening file");
-        return 1;
-    }
-	dim = take_dimensions(fd);//Se aplica para todo el archivo
-	printf("Las dimensiones son:\nNúmero de líneas(y) = %d\nNumero de elementos por línea(x) = %d\nPuntos totales(y*x) = %d\n", dim.y, dim.x, dim.total);
-	printf("**************************************************     VALGRIND     **************************************************\n");
-	m_num = take_numbers_on_line(dim, fd);
-	for (int i = 0; i < 19; i++) {
-	    printf("%s", m_num[i]); // Dentro de los límites.
+		return(ft_error(ERROR, FD_ERROR, NULL));
+
+	content->map = malloc(sizeof(t_map));
+	if(content->map == NULL)
+	{
+		close(fd);
+		return(ft_error(ERROR, MEMORY_ERROR, NULL));
 	}
-	//cords = take_numbers_on_line(dim, fd);
-	//printf("Las coordenadas son: %d(x),%d(y), %d(z)", cords->x, cords->y, cords->z);
-	//free(cords);
-	//free(m_num);
-	close(fd);
-	return(0); 
+	memset(content->map, 0, sizeof(t_map));
+	file = work_on_file(fd, content);
+	if(file == NULL)
+	{
+		free(file);
+		free(content->map);
+		close(fd);
+		return(ft_error(ERROR, "work_on_file", NULL));
+	}
+	ft_striteri(file, put_space);//Se puede meter en work on file ? otra funcion?
+	content->fixed_file = ft_split(file, ' ');
+	free(file);
+	error = close(fd);
+	if(error == -1)//Debemos cerrarlo con protección de errores?
+	{
+		free(content->map);
+		free_arr(content->fixed_file);
+		return(ft_error(ERROR, CLOSE_ERROR, NULL));
+	}
+	return(0);
 }

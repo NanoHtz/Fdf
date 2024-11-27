@@ -3,48 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   line.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:28:34 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/12 19:09:56 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/26 21:01:28 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
 /*
 
 	Mucho cuidado al usar imagenes, puede dar segmentation fault, si lo que quieres imprimir es mas grande que tu imagen.
 	Este es un archivo de prueba básico.
 
 */
-void	draw_line(t_cwin *cw, t_img *im, int color)
-{
-	int	x;
-	int	y;
+#include "fdf.h"
 
-	im->mlx_img = mlx_new_image(cw->mlx, 100, 100);
-	im->addr = mlx_get_data_addr(im->mlx_img, &im->bpp, &im->line_len, &im->endian);
-	y = 50;
-	x = 0;
-	while (x < 100)
+int	draw_line_low(t_img *img, t_cds start, t_cds end)
+{
+	int		err;
+	int		yi;
+	t_cds	delta;
+	t_cds	cur;
+
+	delta = vec_sub(end, start);
+	yi = 1;
+	if (delta.y < 0)
+		yi = -1;
+	delta.y = fabsf(delta.y);
+	err = 2 * delta.y - delta.x;
+	cur = start;
+	while (cur.x < end.x)
 	{
-		img_pix_put(im, x, y, color);
-		x++;
+		img_pix_put(img, cur);
+		if (err > 0)
+			cur.y += yi;
+		if (err > 0)
+			err = err + (2 * (delta.y - delta.x));
+		else
+			err = err + 2 * delta.y;
+		cur.color = make_color(cur, start, end, delta);
+		cur.x++;
 	}
-	x = 50;
-	y = 0;
-	while (y < 100)
-	{
-		img_pix_put(im, x, y, color);
-		y++;
-	}
-	mlx_put_image_to_window(cw->mlx, cw->window, im->mlx_img, WCENTER, HCENTER);
-	mlx_destroy_image(cw->mlx, im->mlx_img);
+	return (0);
 }
 
-void	line(t_cwin *cw)
+int	draw_line_high(t_img *img, t_cds start, t_cds end)
 {
-	t_img		im;
-	
-	draw_line(cw, &im, RED);
+	int		err;
+	int		xi;
+	t_cds	delta;
+	t_cds	cur;
+
+	delta = vec_sub(end, start);
+	xi = 1;
+	if (delta.x < 0)
+		xi = -1;
+	delta.x = fabsf(delta.x);
+	err = 2 * delta.x - delta.y;
+	cur = start;
+	while (cur.y < end.y)
+	{
+		img_pix_put(img, cur);
+		if (err > 0)
+			cur.x += xi;
+		if (err > 0)
+			err = err + (2 * (delta.x - delta.y));
+		else
+			err = err + 2 * delta.x;
+		cur.color = make_color(cur, start, end, delta);
+		cur.y++;
+	}
+	return (0);
+}
+int	draw_line(t_img *img, t_cds start, t_cds end)
+{
+	if (fabsf(end.y - start.y) < fabsf(end.x - start.x))
+	{
+		if (start.x > end.x)
+			return (draw_line_low(img, end, start));
+		return (draw_line_low(img, start, end));
+	}
+	if (start.y > end.y)
+		return (draw_line_high(img, end, start));
+	return (draw_line_high(img, start, end));
+	return (-1);
 }

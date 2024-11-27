@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fgalvez- <fgalvez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2024/11/21 18:11:42 by fgalvez-         ###   ########.fr        #
+#    Updated: 2024/11/26 21:51:35 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,26 +21,33 @@
 
 CC = gcc #Variable para asignar el tipo de compilación
 CFLAGS = -Wall -Wextra -Werror -g3 -ggdb3 #Variable para asignar las flags de compilación pedidas siempre en 42
-CFLAGS2 = -L minilibx-linux -lmlx -lXext -lX11 #Variable para asignar las flags de compilación para manejar la minilibx
+CFLAGS2 = -L minilibx-linux -lmlx -lXext -lX11 -lm #Variable para asignar las flags de compilación para manejar la minilibx
 
 RM = rm -f #variable para el borrado y la limpieza
 
 NAME = fdf #Nombre del programa resultante
 INCLUDE = fdf.h \
 		Inc/get_next_line/get_next_line.h \
-		Inc/libft/libft.h
+		Inc/libft/libft.h \
+		Inc/fdf/errors.h
 #Archivos fuente
 SOURCES = fdf.c \
-		fdf_utils.c \
-		events.c \
-		menu.c \
-		line.c \
+		color_handling.c \
+		draw.c \
 		read_data.c \
+		isometric.c \
+		isometric2.c \
+		mates.c \
+		map.c \
+		mlx.c \
+		line.c \
+		read_data2.c \
 		Inc/get_next_line/*.c \
-		Inc/libft/*.c
+		Inc/libft/*.c \
+		Inc/fdf/*.c
 
 OBJS = $(SOURCES:.c=.o) #EN la variable objs se guarda el resultado de coger los elementos de sources y cambiar el sufijo.c por punto.o
-EXEC =  valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./fdf 0.fdf
+EXEC =  valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes -s
 NORMINETTE = norminette
 #********** Palabras resevadas **********
 
@@ -53,7 +60,7 @@ all: $(NAME) #Comando estandar de make, al ejecutar make solo ejecutara lo sigui
 
 $(NAME): $(SOURCES) #Name es el nombre del ejecutable final, lo hara a partir de las fuentes(sources). Utiliza las variables para compilar de esa forma concreta.
 	@echo "*************************************************ALL*************************************************"
-	$(CC) $(SOURCES) $(CFLAGS) $(CFLAGS2) -o $(NAME)
+	$(CC) $(SOURCES) $(CFLAGS) $(CFLAGS2) -o $(NAME)  2>&1 | tee build.log
 
 clean: #make clean ejecuta el comando siguiente
 	@echo "*************************************************CLEAN*************************************************"
@@ -61,12 +68,18 @@ clean: #make clean ejecuta el comando siguiente
 
 fclean: clean #make fclean ejecuta el comando clean y despues el comando siguiente
 	@echo "*************************************************FCLEAN*************************************************"
-	$(RM)	$(NAME)
+	$(RM)	$(NAME) build.log
 
 n:
 	@echo "*************************************************NORMINETTE*************************************************"
 	-$(NORMINETTE) $(SOURCES)
 
-re:  n fclean all #make re ejecuta el comando fclean y despues vuelve a realizar el make.
+re: fclean all #make re ejecuta el comando fclean y despues vuelve a realizar el make.PONER n antes de fclean $(EXEC) ./$(NAME)
 	@echo "*************************************************RE-VALGRIND*************************************************"
-	$(EXEC)
+
+c_e: all
+	@if [ -f build.log ]; then \
+		grep -i "error" build.log | wc -l | xargs echo "Número de errores:"; \
+	else \
+		echo "No se encontró build.log"; \
+	fi
