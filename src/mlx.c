@@ -6,11 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:59:36 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/26 20:35:24 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:18:32 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
 int	loop_hook(t_content *content)
 {
@@ -57,8 +57,7 @@ int	start_mlx(t_content *content)
 {
 	content->mlx = mlx_init();
 	if (content->mlx == NULL)
-		return(-1);
-
+		return (-1);
 	content->window = mlx_new_window(content->mlx, WIN_W, WIN_H, "FdF");
 	if (content->window == NULL)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:46:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/27 16:49:45 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:19:27 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ void	print_menu(t_content *cw)
 42:
 */
 
-//colors
+# define USAGE "ERROR"
+# define READ_ERROR "ERROR"
+# define FD_ERROR "ERROR"
+# define MEMORY_ERROR "ERROR"
+# define CLOSE_ERROR "ERROR"
+# define READ_ERROR "ERROR"
+
 //añadiendo 0x + https://www.color-hex.com/color/eaeaea
 # define WHITE 0xEAEAEA //Blanco
 # define GREEN 0x58D68D //Verde
@@ -56,7 +62,7 @@ void	print_menu(t_content *cw)
 # define BLACK 0x020202 //Blanco
 # define ISO	0.6154
 //Add Minilibx for linux sistem:
-# include "minilibx-linux/mlx.h"
+# include "../../minilibx-linux/mlx.h"
 
 //New in this library:
 # include <fcntl.h>
@@ -65,9 +71,9 @@ void	print_menu(t_content *cw)
 # include <math.h>
 
 //Add old libraries:
-# include "Inc/get_next_line/get_next_line.h"
-# include "Inc/libft/libft.h"
-# include "Inc/fdf/errors.h"
+# include "../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+//# include "../fdf/errors.h"
 
 typedef struct s_m_rotacional
 {
@@ -190,5 +196,6 @@ int		draw_line(t_img *img, t_cds start, t_cds end);
 t_cds	vector_multiplication(t_mrotacional matrix, t_cds point);
 t_cds	vec_sub(t_cds pt1, t_cds pt2);
 t_cds	vec_add(t_cds pt1, t_cds pt2);
+int	ft_error(const char *str_1);
 
 #endif

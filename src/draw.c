@@ -6,11 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:58:42 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/27 16:48:15 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:21:25 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
 void	img_pix_put(t_img *img, t_cds point)
 {
@@ -26,7 +26,6 @@ void	img_pix_put(t_img *img, t_cds point)
 	*(int *)pixel = point.color;
 }
 
-
 void	draw_map(t_img *img, t_map *map, t_cds offset)
 {
 	int		i;
@@ -38,19 +37,19 @@ void	draw_map(t_img *img, t_map *map, t_cds offset)
 	i = 0;
 	if (map->arr == NULL || map->axis_x <= 0 || map->axis_y <= 0)
 	{
-   		ft_putstr_fd("Error: Invalid map data.\n", 2);
-    	return;
+		ft_putstr_fd("Error: Invalid map data.\n", 2);
+		return ;
 	}
 	while (i < map->axis_x * map->axis_y)
 	{
 		act = map->arr + i;
 		point = vec_add(*act, offset);
-		if ((i + 1) % map->axis_x != 0)//i % map->axis_x != map->axis_y - 1
+		if ((i + 1) % map->axis_x != 0)
 		{
 			neighbour_right = vec_add(*(act + 1), offset);
 			draw_line(img, point, neighbour_right);
 		}
-		if (i < map->axis_x * (map->axis_y - 1))//i < map->axis_x * map->axis_y - map->axis_x
+		if (i < map->axis_x * (map->axis_y - 1))
 		{
 			neighbour_down = vec_add(*(act + map->axis_x), offset);
 			draw_line(img, point, neighbour_down);

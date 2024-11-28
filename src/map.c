@@ -6,13 +6,13 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:14:31 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/27 16:31:09 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:26:39 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
-t_map *make_map(t_content *content)
+t_map	*make_map(t_content *content)
 {
 	t_map	*map;
 
@@ -22,22 +22,21 @@ t_map *make_map(t_content *content)
 	map->i = (t_cds){1, 0, 0, 0x0};
 	map->j = (t_cds){0, 1, 0, 0x0};
 	map->k = (t_cds){0, 0, 1, 0x0};
-
 	if (map->axis_x <= 0 || map->axis_y <= 0)
 	{
-    ft_putstr_fd("Error: Invalid map dimensions.\n", 2);
-    return (NULL);
+		ft_putstr_fd("Error: Invalid map dimensions.\n", 2);
+		return (NULL);
 	}
 	map->arr = malloc(map->axis_x * map-> axis_y * sizeof(t_cds));
-	if(map->arr ==NULL)
+	if (map->arr == NULL)
 	{
 		ft_putstr_fd("Error: Memory allocation failed.\n", 2);
-		return(NULL);
+		return (NULL);
 	}
-	map->space = 10;//Se le puede cambiar el nombre ?
+	map->space = 10;
 	points_on_map(content, map);
-	color_gradient(map);//Necesitamos cambiar color_handingls
-	save_original_map(content);//Esta funcion es necesaria ???
+	color_gradient(map);
+	save_original_map(content);
 	return (map);
 }
 
@@ -63,28 +62,26 @@ t_map	*save_original_map(t_content *content)
 	return (content->original_map);
 }
 
-void points_on_map(t_content *content, t_map *map)
+void	points_on_map(t_content *content, t_map *map)
 {
 	int		i;
 	int		j;
 	t_cds	*act;
 	t_cds	point;
 
-
-    if (map->axis_x <= 0 || map->axis_y <= 0 || map->arr == NULL || content->fixed_file == NULL)
-    {
+	if (map->axis_x <= 0 || map->axis_y <= 0 || map->arr == NULL || content->fixed_file == NULL)
+	{
 		ft_putstr_fd("Error: Invalid map or content data.\n", 2);
-        return;
-    }
-
+		return ;
+	}
 	point.z = 0;
 	point.y = -map->space * map->axis_y / 2;
 	i = 0;
-	while( i < map->axis_y)
+	while (i < map->axis_y)
 	{
 		point.x = -map->space * map->axis_x / 2;
 		j = 0;
-		while(j < map->axis_x)
+		while (j < map->axis_x)
 		{
 			act = map->arr + i * map->axis_x + j;
 			*act = point;
@@ -95,7 +92,7 @@ void points_on_map(t_content *content, t_map *map)
 			else
 			{
 				ft_putstr_fd("Error: Invalid data in fixed_file.\n", 2);
-				act->z = 0; // Asignar un valor predeterminado
+				act->z = 0;
 			}
 			act ->z = ft_atoi(content->fixed_file[i * map->axis_x + j]);
 			z_range(map, act);
@@ -123,7 +120,7 @@ void	color_gradient(t_map *map)
 	t_cds	min;
 	t_cds	*act;
 	int		i;
-	//cambiar esta estructura
+
 	base = (t_cds){0, 0, 0, PURPLE};
 	max = (t_cds){0, 0, map->max_z, HIGH_PURPLE};
 	min = (t_cds){0, 0, map->min_z, LOW_PURPLE};
@@ -138,4 +135,3 @@ void	color_gradient(t_map *map)
 		i++;
 	}
 }
-

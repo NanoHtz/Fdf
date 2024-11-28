@@ -6,19 +6,15 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:47:21 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/26 20:32:52 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:17:33 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//Podremos cambiar las macros ???
+#include "../Inc/fdf/fdf.h"
 
-//Make iso view
-
-#include "fdf.h"
-
-void rot_x(float_t angle, t_map *map)
+void	rot_x(float_t angle, t_map *map)
 {
-	t_mrotacional rotating_x;
+	t_mrotacional	rotating_x;
 
 	rotating_x = (t_mrotacional){
 		1, 0, 0,
@@ -27,9 +23,9 @@ void rot_x(float_t angle, t_map *map)
 	change_map(rotating_x, map);
 }
 
-void rot_y(float_t angle, t_map *map)
+void	rot_y(float_t angle, t_map *map)
 {
-	t_mrotacional rotating_y;
+	t_mrotacional	rotating_y;
 
 	rotating_y = (t_mrotacional){
 		cos(angle), 0, sin(angle),
@@ -88,4 +84,3 @@ void	restore_map(t_content *content)
 	content->map->j = (t_cds){0, 1, 0, 0x0};
 	content->map->k = (t_cds){0, 0, 1, 0x0};
 }
-

@@ -6,11 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 20:06:31 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/26 22:24:05 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:15:07 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
 char	*work_on_file(int fd, t_content *content)
 {
@@ -18,10 +18,10 @@ char	*work_on_file(int fd, t_content *content)
 	char	*file;
 	int		c;
 
-	line = "";//Si utilizo Null no lee el archivo//fdf-francis -> line = "";//Puedo eliminar esto y poner char *line {0}?
+	line = "";
 	file = malloc(sizeof(char));
-	if(file == NULL)
-		return(NULL);
+	if (file == NULL)
+		return (NULL);
 	file[0] = '\0';
 	content->map->axis_y = 0;
 	while (line != NULL)
@@ -55,7 +55,6 @@ void	add_line(char **line, char **file)
 
 	tmp = *file;
 	*file = ft_strjoin(tmp, *line);
-	//free(tmp);
 	free(*line);
-	*line = "";//""
+	*line = "";
 }

@@ -6,80 +6,66 @@
 #    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2024/11/26 21:51:35 by fgalvez-         ###   ########.fr        #
+#    Updated: 2024/11/28 12:14:00 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#cc fdf.c -L minilibx-linux -lmlx -lXext -lX11 -o fdf
+NAME = fdf
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+CFLAGSMINILIBX = -L minilibx-linux -lmlx -lXext -lX11 -lm
+DEBUGGER = -g3
+RM = rm -f
+NORMINETTE = norminette
 
-#En la entrega debo juntar ambas flags de compilacion
-#Debo quitar la variable exec
-#Debo ajustar las flags de all
-#Debo quitar el exec de make re
-
-#********** Variables de compilación **********
-
-CC = gcc #Variable para asignar el tipo de compilación
-CFLAGS = -Wall -Wextra -Werror -g3 -ggdb3 #Variable para asignar las flags de compilación pedidas siempre en 42
-CFLAGS2 = -L minilibx-linux -lmlx -lXext -lX11 -lm #Variable para asignar las flags de compilación para manejar la minilibx
-
-RM = rm -f #variable para el borrado y la limpieza
-
-NAME = fdf #Nombre del programa resultante
-INCLUDE = fdf.h \
+INCLUDE = Inc/fdf/fdf.h \
 		Inc/get_next_line/get_next_line.h \
 		Inc/libft/libft.h \
-		Inc/fdf/errors.h
-#Archivos fuente
-SOURCES = fdf.c \
-		color_handling.c \
-		draw.c \
-		read_data.c \
-		isometric.c \
-		isometric2.c \
-		mates.c \
-		map.c \
-		mlx.c \
-		line.c \
-		read_data2.c \
-		Inc/get_next_line/*.c \
-		Inc/libft/*.c \
-		Inc/fdf/*.c
+		Inc/fdf/errors.h \
+		Inc/fdf/colors.h
 
-OBJS = $(SOURCES:.c=.o) #EN la variable objs se guarda el resultado de coger los elementos de sources y cambiar el sufijo.c por punto.o
-EXEC =  valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes -s
-NORMINETTE = norminette
+DIRSOURCE = src/
+SOURCES = fdf.c \
+			read_data.c \
+			read_data2.c \
+			mlx.c \
+			mates.c \
+			line.c \
+			read_data2.c \
+			isometric.c \
+			map.c \
+			draw.c \
+			color_handling.c
+FDF = Inc/fdf/*.c
+LIBFT = Inc/libft/*.c
+GNL = Inc/get_next_line/*.c
+SRCS = $(addprefix ${DIRSOURCE}, ${SOURCES})
+
+OBJS = $(SRCS:.c=.o)
+
 #********** Palabras resevadas **********
 
 .PHONY: all clean fclean re n
-#phony (falsos) indica que las siguientes palabras no son archivos, si existiese un archivo asi, lo ignoraria, ni siquiera lo busca, lo que lo hace mas rapido
 
 #********** Reglas **********
 
-all: $(NAME) #Comando estandar de make, al ejecutar make solo ejecutara lo siguiente:
+all: n $(NAME)
 
-$(NAME): $(SOURCES) #Name es el nombre del ejecutable final, lo hara a partir de las fuentes(sources). Utiliza las variables para compilar de esa forma concreta.
+$(NAME): $(OBJS)
 	@echo "*************************************************ALL*************************************************"
-	$(CC) $(SOURCES) $(CFLAGS) $(CFLAGS2) -o $(NAME)  2>&1 | tee build.log
+	$(CC) $(SRCS) $(CFLAGS) $(CFLAGSMINILIBX) $(DEBUGGER) -o $(NAME)
 
-clean: #make clean ejecuta el comando siguiente
+clean:
 	@echo "*************************************************CLEAN*************************************************"
 	$(RM)	$(OBJS)
 
-fclean: clean #make fclean ejecuta el comando clean y despues el comando siguiente
+fclean: clean
 	@echo "*************************************************FCLEAN*************************************************"
-	$(RM)	$(NAME) build.log
+	$(RM)	$(NAME)
 
 n:
 	@echo "*************************************************NORMINETTE*************************************************"
 	-$(NORMINETTE) $(SOURCES)
 
-re: fclean all #make re ejecuta el comando fclean y despues vuelve a realizar el make.PONER n antes de fclean $(EXEC) ./$(NAME)
+re: fclean all
 	@echo "*************************************************RE-VALGRIND*************************************************"
-
-c_e: all
-	@if [ -f build.log ]; then \
-		grep -i "error" build.log | wc -l | xargs echo "Número de errores:"; \
-	else \
-		echo "No se encontró build.log"; \
-	fi

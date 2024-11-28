@@ -6,17 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:28:34 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/26 21:01:28 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:20:13 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-
-	Mucho cuidado al usar imagenes, puede dar segmentation fault, si lo que quieres imprimir es mas grande que tu imagen.
-	Este es un archivo de prueba básico.
-
-*/
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
 int	draw_line_low(t_img *img, t_cds start, t_cds end)
 {
@@ -75,6 +69,7 @@ int	draw_line_high(t_img *img, t_cds start, t_cds end)
 	}
 	return (0);
 }
+
 int	draw_line(t_img *img, t_cds start, t_cds end)
 {
 	if (fabsf(end.y - start.y) < fabsf(end.x - start.x))

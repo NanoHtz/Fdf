@@ -6,11 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:09:34 by frafal            #+#    #+#             */
-/*   Updated: 2024/11/25 16:44:53 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 10:21:51 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../Inc/fdf/fdf.h"
 
 float_t	percent(int base, int final, int act)
 {
