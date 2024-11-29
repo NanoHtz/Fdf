@@ -6,11 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:16:53 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/27 18:24:57 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/28 18:59:50 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "errors.h"
+#include "fdf.h"
 
 /*Write string in terminal follow with newline*/
 void	ft_strendl(const char *str)

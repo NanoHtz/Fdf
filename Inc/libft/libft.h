@@ -29,5 +29,7 @@ char			*ft_substr(const char *s, unsigned int start, size_t len);
 char			**ft_split(char const *s, char c);
 size_t			count_words(const char *s, char c);
 int				ft_atoi(const char *nptr);
+void			ft_putchar_fd(char c, int fd);
+void			ft_putstr_fd(char *s, int fd);
 
 #endif
