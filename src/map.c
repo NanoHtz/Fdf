@@ -6,39 +6,11 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:14:31 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:26:39 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:06:21 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
-
-t_map	*make_map(t_content *content)
-{
-	t_map	*map;
-
-	map = content->map;
-	map->max_z = 0;
-	map->min_z = 0;
-	map->i = (t_cds){1, 0, 0, 0x0};
-	map->j = (t_cds){0, 1, 0, 0x0};
-	map->k = (t_cds){0, 0, 1, 0x0};
-	if (map->axis_x <= 0 || map->axis_y <= 0)
-	{
-		ft_putstr_fd("Error: Invalid map dimensions.\n", 2);
-		return (NULL);
-	}
-	map->arr = malloc(map->axis_x * map-> axis_y * sizeof(t_cds));
-	if (map->arr == NULL)
-	{
-		ft_putstr_fd("Error: Memory allocation failed.\n", 2);
-		return (NULL);
-	}
-	map->space = 10;
-	points_on_map(content, map);
-	color_gradient(map);
-	save_original_map(content);
-	return (map);
-}
 
 t_map	*save_original_map(t_content *content)
 {
@@ -62,76 +34,61 @@ t_map	*save_original_map(t_content *content)
 	return (content->original_map);
 }
 
-void	points_on_map(t_content *content, t_map *map)
+void	values(t_map *map, t_content *content, t_cds *point)
 {
-	int		i;
-	int		j;
-	t_cds	*act;
-	t_cds	point;
-
-	if (map->axis_x <= 0 || map->axis_y <= 0 || map->arr == NULL || content->fixed_file == NULL)
+	if (map->axis_x <= 0 || map->axis_y <= 0
+		|| map->arr == NULL || content->fixed_file == NULL)
 	{
-		ft_putstr_fd("Error: Invalid map or content data.\n", 2);
+		ft_report_void(MAP_P);
 		return ;
 	}
-	point.z = 0;
-	point.y = -map->space * map->axis_y / 2;
-	i = 0;
-	while (i < map->axis_y)
+	point->z = 0;
+	point->y = -map->space * map->axis_y / 2;
+}
+
+static void	process_point(t_cds *act, t_context *ctx, int index)
+{
+	*act = ctx->point;
+	if (index < ctx->map->axis_x * ctx->map->axis_y
+		&& ctx->content->fixed_file[index] != NULL)
+		act->z = ft_atoi(ctx->content->fixed_file[index]);
+	else
 	{
-		point.x = -map->space * map->axis_x / 2;
-		j = 0;
-		while (j < map->axis_x)
-		{
-			act = map->arr + i * map->axis_x + j;
-			*act = point;
-			if (i * map->axis_x + j < map->axis_x * map->axis_y && content->fixed_file[i * map->axis_x + j] != NULL)
-			{
-				act->z = ft_atoi(content->fixed_file[i * map->axis_x + j]);
-			}
-			else
-			{
-				ft_putstr_fd("Error: Invalid data in fixed_file.\n", 2);
-				act->z = 0;
-			}
-			act ->z = ft_atoi(content->fixed_file[i * map->axis_x + j]);
-			z_range(map, act);
-			act->color = PURPLE;
-			point.x += map->space;
-			j++;
-		}
-		point.y += map->space;
-		i++;
+		ft_putstr_fd("Error: Invalid data in fixed_file.\n", 2);
+		act->z = 0;
+	}
+	z_range(ctx->map, act);
+	act->color = PURPLE;
+}
+
+static void	process_row(t_context *ctx)
+{
+	int		j;
+	t_cds	*act;
+
+	j = 0;
+	ctx->point.x = -ctx->map->space * ctx->map->axis_x / 2;
+	while (j < ctx->map->axis_x)
+	{
+		act = ctx->map->arr + ctx->i * ctx->map->axis_x + j;
+		process_point(act, ctx, ctx->i * ctx->map->axis_x + j);
+		ctx->point.x += ctx->map->space;
+		j++;
 	}
 }
 
-void	z_range(t_map *map, t_cds *act)
+void	points_on_map(t_content *content, t_map *map)
 {
-	if (act->z < map->min_z)
-		map->min_z = act->z;
-	if (act->z > map->max_z)
-		map->max_z = act->z;
-}
+	t_context	ctx;
 
-void	color_gradient(t_map *map)
-{
-	t_cds	base;
-	t_cds	max;
-	t_cds	min;
-	t_cds	*act;
-	int		i;
-
-	base = (t_cds){0, 0, 0, PURPLE};
-	max = (t_cds){0, 0, map->max_z, HIGH_PURPLE};
-	min = (t_cds){0, 0, map->min_z, LOW_PURPLE};
-	i = 0;
-	while (i < map->axis_x * map->axis_y)
+	ctx.content = content;
+	ctx.map = map;
+	values(ctx.map, ctx.content, &ctx.point);
+	ctx.i = 0;
+	while (ctx.i < ctx.map->axis_y)
 	{
-		act = map->arr + i;
-		if (act->z > 0)
-			act->color = gradient(*act, base, max);
-		if (act->z < 0)
-			act->color = gradient(*act, base, min);
-		i++;
+		process_row(&ctx);
+		ctx.point.y += ctx.map->space;
+		ctx.i++;
 	}
 }

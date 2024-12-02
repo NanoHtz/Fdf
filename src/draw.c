@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:58:42 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:21:25 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:06:04 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ void	draw_map(t_img *img, t_map *map, t_cds offset)
 
 	i = 0;
 	if (map->arr == NULL || map->axis_x <= 0 || map->axis_y <= 0)
-	{
-		ft_putstr_fd("Error: Invalid map data.\n", 2);
-		return ;
-	}
+		return (ft_report_void(MAP_D));
 	while (i < map->axis_x * map->axis_y)
 	{
 		act = map->arr + i;

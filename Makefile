@@ -6,7 +6,7 @@
 #    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2024/11/29 10:39:08 by fgalvez-         ###   ########.fr        #
+#    Updated: 2024/11/29 13:16:51 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ DIR_HEADERS = Inc/fdf Inc/libft Inc/get_next_line
 DIR_FDF     = Inc/fdf
 DIR_LIBFT   = Inc/libft
 DIR_GNL     = Inc/get_next_line
+HEADERS = $(wildcard $(DIR_FDF)/*.h) \
+          $(wildcard $(DIR_LIBFT)/*.h) \
+          $(wildcard $(DIR_GNL)/*.h)
 
 DIRSOURCE   = src/
 SOURCES.h = $(wildcard $(DIR_FDF)/*.c) \
@@ -55,7 +58,7 @@ $(NAME): $(OBJS)
 	@echo "${CYAN}=================================================================================================================${RESET}"
 	@echo "${GREEN}                                       [✔] $(NAME) successfully compiled.${RESET}                               "
 	@echo "${CYAN}=================================================================================================================${RESET}"
-
+	@echo "${MAGENTA}You should use: valgrind ./$(NAME) maps/"archive".fdf${RESET}"
 # ========================= REGLAS PARA LOS OBJETOS ========================== #
 $(OBJSDIR)%.o: $(DIRSOURCE)%.c
 	@mkdir -p $(dir $@)
@@ -94,7 +97,7 @@ n:
 	@echo "${GREEN}         Norminette.      ${RESET}"
 	@echo "${CYAN}=================================${RESET}"
 	@echo "\n"
-	-$(NORMINETTE) $(SRCS) $(SOURCES2)
+	-$(NORMINETTE) $(HEADERS) $(SRCS) $(SOURCES2)
 	@echo "\n"
 	@echo "${GREEN}[✔] Norminette completa.${RESET}\n"
 

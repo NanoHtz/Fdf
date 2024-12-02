@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:14:19 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:11:13 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,11 @@ int	read_data(t_content *content, char	*file_name)
 		return (ft_error(FD_ERROR));
 	content->map = malloc(sizeof(t_map));
 	if (content->map == NULL)
-	{
-		close(fd);
-		return (ft_error(MEMORY_ERROR));
-	}
+		return (close_and_report(MEMORY_ERROR_R, fd));
 	memset(content->map, 0, sizeof(t_map));
 	file = work_on_file(fd, content);
 	if (file == NULL)
-	{
-		free(file);
-		free(content->map);
-		close(fd);
-		return (ft_error("work_on_file"));
-	}
+		return (free_close_report(MEMORY_ERROR_R, fd, content, file));
 	ft_striteri(file, put_space);
 	content->fixed_file = ft_split(file, ' ');
 	free(file);

@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:59:36 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:18:32 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:14:37 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,21 @@ int	close_app(t_content *content)
 	return (0);
 }
 
-int	start_mlx(t_content *content)
+int	start_mlx(t_content *con)
 {
-	content->mlx = mlx_init();
-	if (content->mlx == NULL)
+	con->mlx = mlx_init();
+	if (con->mlx == NULL)
 		return (-1);
-	content->window = mlx_new_window(content->mlx, WIN_W, WIN_H, "FdF");
-	if (content->window == NULL)
+	con->window = mlx_new_window(con->mlx, WIN_W, WIN_H, "FdF");
+	if (con->window == NULL)
 		return (-1);
-	content->img.mlx_img = mlx_new_image(content->mlx, WIN_W, WIN_H);
-	content->img.addr = mlx_get_data_addr(content->img.mlx_img, &content->img.bpp,
-			&content->img.line_len, &content->img.endian);
-	mlx_loop_hook(content->mlx, loop_hook, content);
-	mlx_hook(content->window, DestroyNotify, 0, close_app, content);
-	mlx_hook(content->window, KeyPress, 1, key_hook1, content);
-	mlx_do_key_autorepeaton(content->mlx);
-	mlx_loop(content->mlx);
+	con->img.mlx_img = mlx_new_image(con->mlx, WIN_W, WIN_H);
+	con->img.addr = mlx_get_data_addr(con->img.mlx_img, &con->img.bpp,
+			&con->img.line_len, &con->img.endian);
+	mlx_loop_hook(con->mlx, loop_hook, con);
+	mlx_hook(con->window, DestroyNotify, 0, close_app, con);
+	mlx_hook(con->window, KeyPress, 1, key_hook1, con);
+	mlx_do_key_autorepeaton(con->mlx);
+	mlx_loop(con->mlx);
 	return (0);
 }

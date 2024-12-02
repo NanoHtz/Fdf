@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:46:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 12:19:27 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:20:12 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,36 +21,6 @@
 # define WCENTER 960 //1920 Altura Centro, 960 portatil
 # define WIN_W	1280
 # define WIN_H	720
-/*Comprobar dimensiones del menu
-PORTATIL:
-void	print_menu(t_content *cw)
-{
-	mlx_string_put(cw->mlx, cw->window, 50, 50, WHITE, "MENU");
-	mlx_string_put(cw->mlx, cw->window, 50, 600, WHITE, "CONTROLS:");
-	mlx_string_put(cw->mlx, cw->window, 50, 630, WHITE, "- PRESS SCAPE:");
-	mlx_string_put(cw->mlx, cw->window, 165, 630, GREEN, "EXIT");
-	mlx_string_put(cw->mlx, cw->window, 50, 660, WHITE, "- CLICK X:");
-	mlx_string_put(cw->mlx, cw->window, 135, 660, GREEN, "EXIT");
-	mlx_string_put(cw->mlx, cw->window, 50, 690, WHITE, "- SCROLL:");
-	mlx_string_put(cw->mlx, cw->window, 130, 690, GREEN, "ZOOM IN/OUT");
-	mlx_string_put(cw->mlx, cw->window, 50, 720, WHITE, "- SPACE:");
-	mlx_string_put(cw->mlx, cw->window, 120, 720, GREEN, "**********************");
-	mlx_string_put(cw->mlx, cw->window, 50, 750, WHITE, "- LEFT CLICK:");
-	mlx_string_put(cw->mlx, cw->window, 160, 750, GREEN, "MOVE");
-	mlx_string_put(cw->mlx, cw->window, 50, 780, WHITE, "- ARROWS:");
-	mlx_string_put(cw->mlx, cw->window, 128, 780, GREEN, "ROTATE X/Y");
-	mlx_string_put(cw->mlx, cw->window, 50, 810, WHITE, "- RIGHT CLICK:");
-	mlx_string_put(cw->mlx, cw->window, 165, 810, GREEN, "ROTATE Z");
-}
-42:
-*/
-
-# define USAGE "ERROR"
-# define READ_ERROR "ERROR"
-# define FD_ERROR "ERROR"
-# define MEMORY_ERROR "ERROR"
-# define CLOSE_ERROR "ERROR"
-# define READ_ERROR "ERROR"
 
 //añadiendo 0x + https://www.color-hex.com/color/eaeaea
 # define WHITE 0xEAEAEA //Blanco
@@ -73,7 +43,7 @@ void	print_menu(t_content *cw)
 //Add old libraries:
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
-//# include "../fdf/errors.h"
+# include "errors.h"
 
 typedef struct s_m_rotacional
 {
@@ -97,14 +67,14 @@ typedef struct s_img
 	int		endian;
 }				t_img;
 
-typedef struct			s_dimension
+typedef struct s_dimension
 {
 	int		x;
 	int		y;
 	int		total;
 }			t_dim;
 
-typedef struct			s_coords
+typedef struct s_coords
 {
 	float		x;
 	float		y;
@@ -141,23 +111,19 @@ typedef struct s_content
 	t_map	*original_map;
 }			t_content;
 
+typedef struct s_context
+{
+	t_content	*content;
+	t_map		*map;
+	t_cds		point;
+	int			i;
+}				t_context;
 
-//menu
-void	draw_menu(t_content *cw, t_img *img, int color);
-void	print_menu();
-void	menu(t_content *cw);
-//events
-void	events(t_content *cw);
-int		scape(int keysym, t_content *win);
-int		out(t_content *cw);
-int		clean_and_close(t_content *cw);
-//line
-void	line(t_content *cw);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putchar_fd(char c, int fd);
-int 	read_data(t_content	*content, char *filename);
+int		read_data(t_content	*content, char *filename);
 int		make_color(t_cds act, t_cds base, t_cds final, t_cds gamma);
-void 	isometric(t_map *map);
+void	isometric(t_map *map);
 void	free_arr(char **arr);
 t_map	*make_map(t_content *content);
 t_map	*change_map(t_mrotacional rot, t_map *map);
@@ -180,14 +146,14 @@ void	zoom(t_map *map, float_t factor);
 void	rot_y(float_t angle, t_map *map);
 void	rot_x(float_t angle, t_map *map);
 t_cds	vector_multiplication(t_mrotacional matrix, t_cds point);
-char	*work_on_file(int fd,t_content *content);
+char	*work_on_file(int fd, t_content *content);
 int		lines_consistent(int c, t_content *content);
 void	add_line(char **line, char **file);
 int		columns(char *str);
 void	free_arr(char **arr);
-void 	put_space(unsigned int i, char *s);
+void	put_space(unsigned int i, char *s);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-void 	points_on_map(t_content *content, t_map *map);
+void	points_on_map(t_content *content, t_map *map);
 void	color_gradient(t_map *map);
 t_map	*save_original_map(t_content *content);
 void	restore_map(t_content *content);
@@ -196,6 +162,5 @@ int		draw_line(t_img *img, t_cds start, t_cds end);
 t_cds	vector_multiplication(t_mrotacional matrix, t_cds point);
 t_cds	vec_sub(t_cds pt1, t_cds pt2);
 t_cds	vec_add(t_cds pt1, t_cds pt2);
-int	ft_error(const char *str_1);
 
 #endif
