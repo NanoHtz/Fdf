@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:46:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/29 13:20:12 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/31 12:25:59 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 # define HIGH_PURPLE 0x00B491C8
 # define BLACK 0x020202 //Blanco
 # define ISO	0.6154
+# define COLOR_1  0x000080
+# define COLOR_2  0x00BFFF
+# define COLOR_3  0x228B22
+# define COLOR_4  0xCD853F
+# define COLOR_5  0xFFFFFF
+
 //Add Minilibx for linux sistem:
 # include "../../minilibx-linux/mlx.h"
 
@@ -44,6 +50,14 @@
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
 # include "errors.h"
+
+typedef struct s_limits
+{
+	int	l1;
+	int	l2;
+	int	l3;
+	int	l4;
+}	t_limits;
 
 typedef struct s_m_rotacional
 {
@@ -149,6 +163,8 @@ t_cds	vector_multiplication(t_mrotacional matrix, t_cds point);
 char	*work_on_file(int fd, t_content *content);
 int		lines_consistent(int c, t_content *content);
 void	add_line(char **line, char **file);
+float_t	percent(int base, int final, int act);
+int		calc_color(int base, int final, float_t percent);
 int		columns(char *str);
 void	free_arr(char **arr);
 void	put_space(unsigned int i, char *s);
@@ -162,5 +178,9 @@ int		draw_line(t_img *img, t_cds start, t_cds end);
 t_cds	vector_multiplication(t_mrotacional matrix, t_cds point);
 t_cds	vec_sub(t_cds pt1, t_cds pt2);
 t_cds	vec_add(t_cds pt1, t_cds pt2);
+void	render_instructions(t_content *content, int color);
+void	translate(t_map *map, t_cds offset);
+int		key_hook2(int keysym, t_content *content);
+void	scale_z(t_content *content, float_t factor);
 
 #endif

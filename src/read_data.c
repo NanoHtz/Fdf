@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/29 13:11:13 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:29:56 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 	}
 }
 
-void	put_space(unsigned int i, char *s)
-{
-	(void)i;
-	if (*s == '\n')
-		*s = ' ';
-}
-
 void	free_arr(char **arr)
 {
 	int	i;
@@ -47,21 +40,12 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-int	columns(char *str)
+char	**ft_split_putspace(char *str)
 {
-	char	*aux;
-	char	**split_spaces;
-	int		c;
-
-	aux = ft_strdup(str);
-	c = 0;
-	ft_striteri(aux, put_space);
-	split_spaces = ft_split(aux, ' ');
-	free(aux);
-	while (split_spaces[c] != NULL)
-		c++;
-	free_arr(split_spaces);
-	return (c);
+	if (!str)
+		return (NULL);
+	ft_striteri(str, put_space);
+	return (ft_split(str, ' '));
 }
 
 int	read_data(t_content *content, char	*file_name)
@@ -76,12 +60,17 @@ int	read_data(t_content *content, char	*file_name)
 	content->map = malloc(sizeof(t_map));
 	if (content->map == NULL)
 		return (close_and_report(MEMORY_ERROR_R, fd));
-	memset(content->map, 0, sizeof(t_map));
+	ft_memset(content->map, 0, sizeof(t_map));
 	file = work_on_file(fd, content);
 	if (file == NULL)
 		return (free_close_report(MEMORY_ERROR_R, fd, content, file));
 	ft_striteri(file, put_space);
 	content->fixed_file = ft_split(file, ' ');
+	/*
+	ft_striteri(file, put_space);
+	content->fixed_file = ft_split(file, ' ');
+	por esto->content->fixed_file = ft_split_putspace(file);
+	*/
 	free(file);
 	error = close(fd);
 	if (error == -1)

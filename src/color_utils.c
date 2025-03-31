@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mates.c                                            :+:      :+:    :+:   */
+/*   color_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 20:26:17 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/31 11:23:33 by fgalvez-         ###   ########.fr       */
+/*   Created: 2025/03/31 11:06:25 by fgalvez-          #+#    #+#             */
+/*   Updated: 2025/03/31 11:06:25 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-t_cds	vec_add(t_cds pt1, t_cds pt2)
+float_t	percent(int base, int final, int act)
 {
-	t_cds	sum;
+	float_t	pos;
+	float_t	gamma;
 
-	sum.x = pt1.x + pt2.x;
-	sum.y = pt1.y + pt2.y;
-	sum.z = pt1.z + pt2.z;
-	sum.color = pt1.color;
-	return (sum);
+	gamma = final - base;
+	if (gamma == 0)
+		return (1.0);
+	pos = act - base;
+	return (pos / gamma);
 }
 
-t_cds	vec_sub(t_cds pt1, t_cds pt2)
+int	calc_color(int base, int final, float_t percent)
 {
-	t_cds	diff;
+	int	color;
 
-	diff.x = pt1.x - pt2.x;
-	diff.y = pt1.y - pt2.y;
-	diff.z = pt1.z - pt2.z;
-	diff.color = pt1.color;
-	return (diff);
+	color = (1 - percent) * base + percent * final;
+	return (color);
 }

@@ -1,0 +1,62 @@
+Main:(Demasiado parecido)
+	->Primero tenemos la estructura content.
+	->Comprobación de argumentos Mensaje de error si pones otra cosa que no sean dos argumentos.
+
+read_data: Se diferencia en ft_memset, gestion de la variable error.
+	-> Si existe algun error en read_data salta error.
+	-> Como que el archivo no exista.
+	-> En read_data se abre el archivo, si falla devuelve fallo.
+	-> Reservo la memporia, si falla error.
+	-> Inicializo con ft_memset todo a cero, pero aún no se el tamaño que tendra el mapa, despues se irá variando.
+	-> Hago work_on_file, si falla devuelvo error, aqui obtenemos el tamaño del mapa.
+	-> Hago striteri, cambio el salto de linea de cada linea, por un espacio.
+	-> Ahora hago split.
+
+work_on_file: debo añadir ft_get_next_line(), ft_striteri y ft_Strjoin.Probar la nueva funcion de columns.
+	-> Comienza creando un string inicial vacio, donde se irá almacenando todo el contenido.
+	-> El bucle se inicializa por que la string esta vacia al principio.
+	-> Lee el archivo linea por linea con get_next_line
+	-> Cuenta el número de elemntos por fila
+	-> Line consistent-> verifica que todas las filas tengan el mismo número de elementos.
+	-> Por cada linea, guarda el número de elementos por linea, para las comprobaciones siguientes y suma uno por fila.
+		asi se obtienen las dimensiones del mapa.
+	-> Despues hace add_line, añadiendo al string vacio cada linea, ya formateada
+
+make_map: Muy similar.
+	-> Inicialización de variables y vectores canónicos.
+	-> Space = 10, el distanciamiento entre los puntos.
+	Points_on_map: Es diferente.
+		-> Values: Establece el punto medio para el mapa.
+		-> Se procesan las filas.
+		Process_row:
+			-> Centra la fila
+			-> Procesa cada punto.
+			Procees_points:
+				-> Copia la posición del punto
+				-> Hace atoi, si falla, asigna z = 0.
+				-> Actualiza z range.
+				-> Asigna un color.
+	Color_gradiant: Muy similar.
+		Se recorre cada punto del mapa y los clasifica en función del rango.
+		-> Percent: Calcula como de lejos esta.
+		-> Calc_color: Realiza una interpolación lineal.
+		-> Gradient: Hace calc_color, para cada rama de color, unificandolas al final.
+
+isometric:
+	-> Se crean matrices de rotación estandar, y se aplican a los distintos puntos.
+
+Scale:
+	-> Aplica una escala uniforme en forma de matriz a todo el mapa.
+	-> Con max and mins, calcula el nuevo tamaño del mapa. lo que interesa es el centro.
+	-> Scale, buscar escalarlo para que quede bien en la ventana, que tenga margenes
+
+
+Hace el mapa
+La isometrica
+El escalado.
+Si la mlx falla devuelve error.
+
+En read_data, abre el archivo, reserva memoria e inicializa a cero todos los datos.
+se lleva a cabo la funcion work on file, trabaja en el archivo donde
+pone todos los datos como una sola linea, la funcion striteri pone un espacio donde deberia haber un salto de linea.
+Despues guarda todo el contenido con un split.

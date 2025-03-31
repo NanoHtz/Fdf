@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   isometric2.c                                       :+:      :+:    :+:   */
+/*   scale.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 20:47:21 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:17:33 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/31 11:39:24 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-void	rot_x(float_t angle, t_map *map)
+void	zoom(t_map *map, float_t factor)
 {
-	t_mrotacional	rotating_x;
+	t_mrotacional	scale;
 
-	rotating_x = (t_mrotacional){
-		1, 0, 0,
-		0, cos(angle), -sin(angle),
-		0, sin(angle), cos(angle)};
-	change_map(rotating_x, map);
-}
-
-void	rot_y(float_t angle, t_map *map)
-{
-	t_mrotacional	rotating_y;
-
-	rotating_y = (t_mrotacional){
-		cos(angle), 0, sin(angle),
-		0, 1, 0,
-		-sin(angle), 0, cos(angle)};
-	change_map(rotating_y, map);
+	scale = (t_mrotacional){factor, 0, 0, 0, factor, 0, 0, 0, factor};
+	change_map(scale, map);
 }
 
 void	maxs_and_mins(t_map *map)
@@ -83,4 +69,34 @@ void	restore_map(t_content *content)
 	content->map->i = (t_cds){1, 0, 0, 0x0};
 	content->map->j = (t_cds){0, 1, 0, 0x0};
 	content->map->k = (t_cds){0, 0, 1, 0x0};
+}
+
+void	scale_z(t_content *content, float_t factor)
+{
+	t_mrotacional	scale_z;
+	t_mrotacional	tmp;
+	t_map			*map;
+
+	map = content->map;
+	tmp = (t_mrotacional){map->i.x, map->i.y, map->i.z,
+		map->j.x, map->j.y, map->j.z,
+		map->k.x, map->k.y, map->k.z};
+	scale_z = (t_mrotacional){1, 0, 0, 0, 1, 0, 0, 0, factor};
+	restore_map(content);
+	change_map(scale_z, map);
+	change_map(tmp, map);
+}
+
+void	translate(t_map *map, t_cds offset)
+{
+	int		i;
+	t_cds	*cur;
+
+	i = 0;
+	while (i < map->axis_x * map->axis_y)
+	{
+		cur = map->arr + i;
+		*cur = vec_add(*cur, offset);
+		i++;
+	}
 }

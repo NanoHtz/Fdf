@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   points_on_map.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:14:31 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/29 13:06:21 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/28 09:00:49 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-t_map	*save_original_map(t_content *content)
+void	z_range(t_map *map, t_cds *act)
 {
-	t_cds	*act;
-	int		i;
-
-	content->original_map = malloc(sizeof(t_map));
-	if (content->original_map == NULL)
-		return (NULL);
-	content->original_map->arr = malloc(content->map->axis_x
-			* content->map->axis_y * sizeof(t_cds));
-	if (content->original_map->arr == NULL)
-		return (NULL);
-	i = 0;
-	while (i < content->map->axis_x * content->map->axis_y)
-	{
-		act = content->map->arr + i;
-		*(content->original_map->arr + i) = *act;
-		i++;
-	}
-	return (content->original_map);
+	if (act->z < map->min_z)
+		map->min_z = act->z;
+	if (act->z > map->max_z)
+		map->max_z = act->z;
 }
 
 void	values(t_map *map, t_content *content, t_cds *point)

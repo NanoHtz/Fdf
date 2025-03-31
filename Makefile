@@ -6,19 +6,26 @@
 #    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2024/11/29 13:16:51 by fgalvez-         ###   ########.fr        #
+#    Updated: 2025/03/31 12:10:10 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ========================= VARIABLES GLOBALES =============================== #
 
 NAME = fdf
-CC = gcc
+CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CFLAGSMINILIBX = -L minilibx-linux -lmlx -lXext -lX11 -lm
 DEBUGGER = -g3
 RM = rm -f
 NORMINETTE = norminette
+
+ifeq ($(BONUS),1)
+	MLX = src/mlx_bonus.c
+else
+	MLX = src/mlx.c
+endif
+
 # ========================= DIRECTORIOS Y ARCHIVOS =========================== #
 
 DIR_HEADERS = Inc/fdf Inc/libft Inc/get_next_line
@@ -33,7 +40,8 @@ DIRSOURCE   = src/
 SOURCES.h = $(wildcard $(DIR_FDF)/*.c) \
            $(wildcard $(DIR_LIBFT)/*.c) \
            $(wildcard $(DIR_GNL)/*.c)
-SOURCES     = $(wildcard $(DIRSOURCE)*.c)
+
+SOURCES = $(filter-out src/mlx.c src/mlx_bonus.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
 SRCS        = $(SOURCES) $(SOURCES.h)
 
 OBJSDIR     = ./obj/
@@ -48,9 +56,12 @@ MAGENTA			= \033[0;35m
 RESET			= \033[0m
 
 # ========================= REGLAS PRINCIPALES =============================== #
-.PHONY: all clean fclean re n
+.PHONY: all clean fclean re n bonus
 
 all: n $(NAME)
+
+bonus:
+	@$(MAKE) BONUS=1 all
 
 $(NAME): $(OBJS)
 	@echo "\n${MAGENTA}Compilando el ejecutable $(NAME)...${RESET}\n"
@@ -58,7 +69,7 @@ $(NAME): $(OBJS)
 	@echo "${CYAN}=================================================================================================================${RESET}"
 	@echo "${GREEN}                                       [✔] $(NAME) successfully compiled.${RESET}                               "
 	@echo "${CYAN}=================================================================================================================${RESET}"
-	@echo "${MAGENTA}You should use: valgrind ./$(NAME) maps/"archive".fdf${RESET}"
+	@echo "${MAGENTA}You should use: valgrind --track-fds=yes ./$(NAME) maps/0.fdf${RESET}"
 # ========================= REGLAS PARA LOS OBJETOS ========================== #
 $(OBJSDIR)%.o: $(DIRSOURCE)%.c
 	@mkdir -p $(dir $@)

@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 11:15:22 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/29 13:20:57 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/27 13:59:39 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ typedef struct s_content	t_content;
 
 # define MAP_D "function draw_map : Error: Invalid map data.\n"
 # define MAP_P "function points_on_map : Error: Invalid map data.\n"
-# define FD_ERROR "function read_data : Error in open file\n."
+# define FD_ERROR "function read_data : Error in open file. Use archives in maps/archive.fdf\n"
 # define MEMORY_ERROR_R "function read_data : Error: Invalid map data.\n"
-# define USAGE "ERROR"
-# define READ_ERROR "ERROR"
+# define USAGE "Arguments error: use only two arguments. Usage: ./fdf maps/archive.fdf"
 # define CLOSE_ERROR "ERROR"
 # define READ_ERROR "ERROR"
 

@@ -22,6 +22,7 @@
 
 //Funciones
 void			ft_bzero(void *s, size_t n);
+void			*ft_memset(void *b, int x, size_t len);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
 size_t			ft_strlen(const char *str);
