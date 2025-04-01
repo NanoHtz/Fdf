@@ -6,13 +6,13 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:14:31 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/28 09:00:49 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:58:07 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-void	z_range(t_map *map, t_cds *act)
+void	z_range(t_grid *map, t_coord *act)
 {
 	if (act->z < map->min_z)
 		map->min_z = act->z;
@@ -20,24 +20,24 @@ void	z_range(t_map *map, t_cds *act)
 		map->max_z = act->z;
 }
 
-void	values(t_map *map, t_content *content, t_cds *point)
+void	values(t_grid *map, t_core *content, t_coord *point)
 {
 	if (map->axis_x <= 0 || map->axis_y <= 0
-		|| map->arr == NULL || content->fixed_file == NULL)
+		|| map->arr == NULL || content->parsed_map == NULL)
 	{
 		ft_report_void(MAP_P);
 		return ;
 	}
 	point->z = 0;
-	point->y = -map->space * map->axis_y / 2;
+	point->y = -map->dist * map->axis_y / 2;
 }
 
-static void	process_point(t_cds *act, t_context *ctx, int index)
+void	process_point(t_coord *act, t_context *ctx, int index)
 {
 	*act = ctx->point;
 	if (index < ctx->map->axis_x * ctx->map->axis_y
-		&& ctx->content->fixed_file[index] != NULL)
-		act->z = ft_atoi(ctx->content->fixed_file[index]);
+		&& ctx->content->parsed_map[index] != NULL)
+		act->z = ft_atoi(ctx->content->parsed_map[index]);
 	else
 	{
 		ft_putstr_fd("Error: Invalid data in fixed_file.\n", 2);
@@ -47,23 +47,23 @@ static void	process_point(t_cds *act, t_context *ctx, int index)
 	act->color = PURPLE;
 }
 
-static void	process_row(t_context *ctx)
+void	process_row(t_context *ctx)
 {
 	int		j;
-	t_cds	*act;
+	t_coord	*act;
 
 	j = 0;
-	ctx->point.x = -ctx->map->space * ctx->map->axis_x / 2;
+	ctx->point.x = -ctx->map->dist * ctx->map->axis_x / 2;
 	while (j < ctx->map->axis_x)
 	{
 		act = ctx->map->arr + ctx->i * ctx->map->axis_x + j;
 		process_point(act, ctx, ctx->i * ctx->map->axis_x + j);
-		ctx->point.x += ctx->map->space;
+		ctx->point.x += ctx->map->dist;
 		j++;
 	}
 }
 
-void	points_on_map(t_content *content, t_map *map)
+void	points_on_map(t_core *content, t_grid *map)
 {
 	t_context	ctx;
 
@@ -74,7 +74,7 @@ void	points_on_map(t_content *content, t_map *map)
 	while (ctx.i < ctx.map->axis_y)
 	{
 		process_row(&ctx);
-		ctx.point.y += ctx.map->space;
+		ctx.point.y += ctx.map->dist;
 		ctx.i++;
 	}
 }

@@ -6,26 +6,12 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 14:11:06 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/27 16:29:56 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:44:42 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 #include <stdlib.h>
-
-//https://github.com/ignacioviseras/Fdf/blob/main/params.c
-
-void	ft_striteri(char *s, void (*f)(unsigned int, char*))
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		(*f)(i, &s[i]);
-		i++;
-	}
-}
 
 void	free_arr(char **arr)
 {
@@ -40,15 +26,28 @@ void	free_arr(char **arr)
 	free(arr);
 }
 
-char	**ft_split_putspace(char *str)
+void	parse_line(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			str[i] = ' ';
+		i++;
+	}
+}
+
+char	**ft_parse_and_split(char *str)
 {
 	if (!str)
 		return (NULL);
-	ft_striteri(str, put_space);
+	parse_line(str);
 	return (ft_split(str, ' '));
 }
 
-int	read_data(t_content *content, char	*file_name)
+int	read_data(t_core *content, char	*file_name)
 {
 	int			fd;
 	char		*file;
@@ -57,26 +56,20 @@ int	read_data(t_content *content, char	*file_name)
 	fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 		return (ft_error(FD_ERROR));
-	content->map = malloc(sizeof(t_map));
-	if (content->map == NULL)
+	content->render_map = malloc(sizeof(t_grid));
+	if (content->render_map == NULL)
 		return (close_and_report(MEMORY_ERROR_R, fd));
-	ft_memset(content->map, 0, sizeof(t_map));
+	ft_memset(content->render_map, 0, sizeof(t_grid));
 	file = work_on_file(fd, content);
 	if (file == NULL)
 		return (free_close_report(MEMORY_ERROR_R, fd, content, file));
-	ft_striteri(file, put_space);
-	content->fixed_file = ft_split(file, ' ');
-	/*
-	ft_striteri(file, put_space);
-	content->fixed_file = ft_split(file, ' ');
-	por esto->content->fixed_file = ft_split_putspace(file);
-	*/
+	content->parsed_map = ft_parse_and_split(file);
 	free(file);
 	error = close(fd);
 	if (error == -1)
 	{
-		free(content->map);
-		free_arr(content->fixed_file);
+		free(content->render_map);
+		free_arr(content->parsed_map);
 		return (ft_error(CLOSE_ERROR));
 	}
 	return (0);

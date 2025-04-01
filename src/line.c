@@ -6,18 +6,18 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:28:34 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/28 10:20:13 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:21:18 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-int	draw_line_low(t_img *img, t_cds start, t_cds end)
+int	draw_line_low(t_img *img, t_coord start, t_coord end)
 {
 	int		err;
 	int		yi;
-	t_cds	delta;
-	t_cds	cur;
+	t_coord	delta;
+	t_coord	cur;
 
 	delta = vec_sub(end, start);
 	yi = 1;
@@ -41,12 +41,12 @@ int	draw_line_low(t_img *img, t_cds start, t_cds end)
 	return (0);
 }
 
-int	draw_line_high(t_img *img, t_cds start, t_cds end)
+int	draw_line_high(t_img *img, t_coord start, t_coord end)
 {
 	int		err;
 	int		xi;
-	t_cds	delta;
-	t_cds	cur;
+	t_coord	delta;
+	t_coord	cur;
 
 	delta = vec_sub(end, start);
 	xi = 1;
@@ -70,7 +70,7 @@ int	draw_line_high(t_img *img, t_cds start, t_cds end)
 	return (0);
 }
 
-int	draw_line(t_img *img, t_cds start, t_cds end)
+int	draw_line(t_img *img, t_coord start, t_coord end)
 {
 	if (fabsf(end.y - start.y) < fabsf(end.x - start.x))
 	{

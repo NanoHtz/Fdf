@@ -6,7 +6,7 @@
 #    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2025/03/31 12:10:10 by fgalvez-         ###   ########.fr        #
+#    Updated: 2025/04/01 20:07:46 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,9 +21,11 @@ RM = rm -f
 NORMINETTE = norminette
 
 ifeq ($(BONUS),1)
-	MLX = src/mlx_bonus.c
+	MLX = src/mlx_bonus.c src/bonus_utils.c
+	SOURCES = $(filter-out src/mlx.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
 else
 	MLX = src/mlx.c
+	SOURCES = $(filter-out src/mlx_bonus.c src/bonus_utils.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
 endif
 
 # ========================= DIRECTORIOS Y ARCHIVOS =========================== #
@@ -42,7 +44,7 @@ SOURCES.h = $(wildcard $(DIR_FDF)/*.c) \
            $(wildcard $(DIR_GNL)/*.c)
 
 SOURCES = $(filter-out src/mlx.c src/mlx_bonus.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
-SRCS        = $(SOURCES) $(SOURCES.h)
+SRCS        = $(sort $(SOURCES) $(SOURCES.h))
 
 OBJSDIR     = ./obj/
 OBJS        = $(addprefix $(OBJSDIR), $(notdir $(SRCS:.c=.o)))

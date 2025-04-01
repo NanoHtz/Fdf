@@ -6,13 +6,13 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:09:34 by frafal            #+#    #+#             */
-/*   Updated: 2025/03/31 11:14:29 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:57:21 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-int	gradient(t_cds act, t_cds base, t_cds final)
+int	gradient(t_coord act, t_coord base, t_coord final)
 {
 	int		red;
 	int		green;
@@ -41,29 +41,29 @@ t_limits	calculate_limits(int min_z, int max_z)
 	return (limits);
 }
 
-int	get_color_by_z(t_cds act, int min_z, int max_z, t_limits l)
+int	get_color_by_z(t_coord act, int min_z, int max_z, t_limits l)
 {
 	if (act.z <= l.l1)
-		return (gradient(act, (t_cds){0, 0, min_z, COLOR_1},
-			(t_cds){0, 0, l.l1, COLOR_2}));
+		return (gradient(act, (t_coord){0, 0, min_z, COLOR_1},
+			(t_coord){0, 0, l.l1, COLOR_2}));
 	else if (act.z <= l.l2)
-		return (gradient(act, (t_cds){0, 0, l.l1, COLOR_2},
-			(t_cds){0, 0, l.l2, COLOR_3}));
+		return (gradient(act, (t_coord){0, 0, l.l1, COLOR_2},
+			(t_coord){0, 0, l.l2, COLOR_3}));
 	else if (act.z <= l.l3)
-		return (gradient(act, (t_cds){0, 0, l.l2, COLOR_3},
-			(t_cds){0, 0, l.l3, COLOR_4}));
+		return (gradient(act, (t_coord){0, 0, l.l2, COLOR_3},
+			(t_coord){0, 0, l.l3, COLOR_4}));
 	else if (act.z <= l.l4)
-		return (gradient(act, (t_cds){0, 0, l.l3, COLOR_4},
-			(t_cds){0, 0, l.l4, COLOR_5}));
+		return (gradient(act, (t_coord){0, 0, l.l3, COLOR_4},
+			(t_coord){0, 0, l.l4, COLOR_5}));
 	else
-		return (gradient(act, (t_cds){0, 0, l.l4, COLOR_5},
-			(t_cds){0, 0, max_z, 0xFFFFFF}));
+		return (gradient(act, (t_coord){0, 0, l.l4, COLOR_5},
+			(t_coord){0, 0, max_z, 0xFFFFFF}));
 }
 
-void	color_gradient(t_map *map)
+void	color_gradient(t_grid *map)
 {
 	int			i;
-	t_cds		*act;
+	t_coord		*act;
 	t_limits	limits;
 
 	limits = calculate_limits(map->min_z, map->max_z);
@@ -74,25 +74,4 @@ void	color_gradient(t_map *map)
 		act->color = get_color_by_z(*act, map->min_z, map->max_z, limits);
 		i++;
 	}
-}
-
-int	make_color(t_cds act, t_cds base, t_cds final, t_cds gamma)
-{
-	int		red;
-	int		green;
-	int		blue;
-	float_t	percentage;
-
-	if (act.color == final.color)
-		return (act.color);
-	if (gamma.x > gamma.y)
-		percentage = percent(base.x, final.x, act.x);
-	else
-		percentage = percent(base.y, final.y, act.y);
-	red = calc_color((base.color >> 16) & 0xFF,
-			(final.color >> 16) & 0xFF, percentage);
-	green = calc_color((base.color >> 8) & 0xFF,
-			(final.color >> 8) & 0xFF, percentage);
-	blue = calc_color(base.color & 0xFF, final.color & 0xFF, percentage);
-	return ((red << 16) | (green << 8) | blue);
 }

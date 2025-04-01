@@ -6,15 +6,15 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 11:15:22 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/27 13:59:39 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/03/31 15:51:12 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERRORS_H
 # define ERRORS_H
 
-struct						s_content;
-typedef struct s_content	t_content;
+struct						s_core;
+typedef struct s_core	t_core;
 
 # define MAP_D "function draw_map : Error: Invalid map data.\n"
 # define MAP_P "function points_on_map : Error: Invalid map data.\n"
@@ -27,6 +27,6 @@ typedef struct s_content	t_content;
 int		ft_error(const char *str_1);
 void	ft_report_void(const char *str_1);
 int		close_and_report(const char *str_1, int fd);
-int		free_close_report(const char *s, int fd, t_content *cont, char *file);
+int		free_close_report(const char *s, int fd, t_core *cont, char *file);
 
 #endif

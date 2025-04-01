@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 21:16:53 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/27 14:10:40 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:07:46 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	close_and_report(const char *str_1, int fd)
 	return (-1);
 }
 
-int	free_close_report(const char *s, int fd, t_content *cont, char *file)
+int	free_close_report(const char *s, int fd, t_core *cont, char *file)
 {
 	if (file != NULL)
 		free(file);
-	if (cont->map != NULL)
-		free(cont->map);
+	if (cont->render_map != NULL)
+		free(cont->render_map);
 	close(fd);
 	write(1, "\033[31m", 5);
 	ft_strendl(s);

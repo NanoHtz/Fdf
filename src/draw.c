@@ -6,13 +6,13 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:58:42 by fgalvez-          #+#    #+#             */
-/*   Updated: 2024/11/29 13:06:04 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:55:50 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-void	img_pix_put(t_img *img, t_cds point)
+void	img_pix_put(t_img *img, t_coord point)
 {
 	char	*pixel;
 	int		x;
@@ -26,13 +26,13 @@ void	img_pix_put(t_img *img, t_cds point)
 	*(int *)pixel = point.color;
 }
 
-void	draw_map(t_img *img, t_map *map, t_cds offset)
+void	draw_map(t_img *img, t_grid *map, t_coord offset)
 {
 	int		i;
-	t_cds	point;
-	t_cds	neighbour_right;
-	t_cds	neighbour_down;
-	t_cds	*act;
+	t_coord	point;
+	t_coord	neighbour_right;
+	t_coord	neighbour_down;
+	t_coord	*act;
 
 	i = 0;
 	if (map->arr == NULL || map->axis_x <= 0 || map->axis_y <= 0)
@@ -66,27 +66,9 @@ void	render_background(t_img *img, int color)
 		j = 0;
 		while (j < WIN_W)
 		{
-			img_pix_put(img, (t_cds){j, i, 0, color});
+			img_pix_put(img, (t_coord){j, i, 0, color});
 			j++;
 		}
 		i++;
 	}
-}
-
-void	render_instructions(t_content *content, int color)
-{
-	mlx_string_put(content->mlx, content->window, 30, 30,
-		color, "Zoom: Keypad +, -");
-	mlx_string_put(content->mlx, content->window, 30, 50,
-		color, "Translate: Up, Down, Left, Right");
-	mlx_string_put(content->mlx, content->window, 30, 70,
-		color, "Rotate: W, A, S, D");
-	mlx_string_put(content->mlx, content->window, 30, 90,
-		color, "Change Height: J, K");
-	mlx_string_put(content->mlx, content->window, 30, 110,
-		color, "Reset Isometric View: R");
-	mlx_string_put(content->mlx, content->window, 30, 130,
-		color, "Top View: T");
-	mlx_string_put(content->mlx, content->window, 30, 150,
-		color, "Animate: Space");
 }

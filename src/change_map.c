@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mates.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/26 20:26:17 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/03/31 11:23:33 by fgalvez-         ###   ########.fr       */
+/*   Created: 2025/04/01 19:46:54 by fgalvez-          #+#    #+#             */
+/*   Updated: 2025/04/01 19:46:54 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-t_cds	vec_add(t_cds pt1, t_cds pt2)
+t_grid	*change_map(t_mrot rot, t_grid *map)
 {
-	t_cds	sum;
+	t_coord	*act;
+	int		i;
 
-	sum.x = pt1.x + pt2.x;
-	sum.y = pt1.y + pt2.y;
-	sum.z = pt1.z + pt2.z;
-	sum.color = pt1.color;
-	return (sum);
-}
-
-t_cds	vec_sub(t_cds pt1, t_cds pt2)
-{
-	t_cds	diff;
-
-	diff.x = pt1.x - pt2.x;
-	diff.y = pt1.y - pt2.y;
-	diff.z = pt1.z - pt2.z;
-	diff.color = pt1.color;
-	return (diff);
+	i = 0;
+	while (i < map->axis_x * map->axis_y)
+	{
+		act = map->arr + i;
+		*act = vector_multiplication(rot, *act);
+		i++;
+	}
+	map->i = vector_multiplication(rot, map->i);
+	map->j = vector_multiplication(rot, map->j);
+	map->k = vector_multiplication(rot, map->k);
+	return (map);
 }
