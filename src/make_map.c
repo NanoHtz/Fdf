@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:11:43 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/01 12:25:32 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:25:02 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_grid	*make_map(t_core *content)
 	}
 	map->dist = 10;
 	points_on_map(content, map);
-	color_gradient(map);
+	color_gradient(map, content->palette_id);
 	save_original_map(content);
 	return (map);
 }

@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   hsv.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 14:45:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/02 12:33:34 by fgalvez-         ###   ########.fr       */
+/*   Created: 2025/04/01 20:55:15 by fgalvez-          #+#    #+#             */
+/*   Updated: 2025/04/01 20:55:15 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-int	main(int ac, char **av)
+t_palette	get_palette(int id)
 {
-	t_core	content;
+	t_palette	p;
 
-	if (ac != 2)
-		return (ft_error(USAGE));
-	if (read_data(&content, av[1]) == -1)
-		return (ft_error(READ_ERROR));
-	make_map(&content);
-	isometric(content.render_map);
-	scale(content.render_map);
-	content.ani_flag = 0;
-	content.palette_id = 0;
-	if (start_mlx(&content) == -1)
-		return (-1);
-	return (0);
+	if (id == 1)
+	{
+		p.c1 = 0x003366;
+		p.c2 = 0x336666;
+		p.c3 = 0x339933;
+		p.c4 = 0xCCCC33;
+		p.c5 = 0x996633;
+		p.c6 = 0xEEEEEE;
+	}
+	else
+	{
+		p.c1 = 0x6A0DAD;
+		p.c2 = 0xFF00FF;
+		p.c3 = 0xFF69B4;
+		p.c4 = 0xFFD700;
+		p.c5 = 0xFF4500;
+		p.c6 = 0xFFFFFF;
+	}
+	return (p);
 }

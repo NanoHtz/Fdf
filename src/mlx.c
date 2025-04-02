@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 19:59:36 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/01 12:21:42 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/02 12:12:04 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	loop_hook(t_core *content)
 	offset.x = WIN_W / 2;
 	offset.y = WIN_H / 2;
 	offset.z = 0;
-	draw_map(&content->canvas, map, offset);
+	draw_horizontal_lines(&content->canvas, map, offset);
+	draw_vertical_lines(&content->canvas, map, offset);
 	mlx_put_image_to_window(content->mlx, content->window,
 		content->canvas.mlx_img, 0, 0);
 	return (0);

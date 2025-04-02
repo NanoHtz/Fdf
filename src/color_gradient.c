@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:09:34 by frafal            #+#    #+#             */
-/*   Updated: 2025/04/01 19:57:21 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:29:01 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,40 @@ t_limits	calculate_limits(int min_z, int max_z)
 	return (limits);
 }
 
-int	get_color_by_z(t_coord act, int min_z, int max_z, t_limits l)
+int	get_color_by_z(t_coord act, int min_z, int max_z, t_palette p)
 {
+	t_limits	l;
+
+	l = calculate_limits(min_z, max_z);
 	if (act.z <= l.l1)
-		return (gradient(act, (t_coord){0, 0, min_z, COLOR_1},
-			(t_coord){0, 0, l.l1, COLOR_2}));
+		return (gradient(act, (t_coord){0, 0, min_z, p.c1},
+			(t_coord){0, 0, l.l1, p.c2}));
 	else if (act.z <= l.l2)
-		return (gradient(act, (t_coord){0, 0, l.l1, COLOR_2},
-			(t_coord){0, 0, l.l2, COLOR_3}));
+		return (gradient(act, (t_coord){0, 0, l.l1, p.c2},
+			(t_coord){0, 0, l.l2, p.c3}));
 	else if (act.z <= l.l3)
-		return (gradient(act, (t_coord){0, 0, l.l2, COLOR_3},
-			(t_coord){0, 0, l.l3, COLOR_4}));
+		return (gradient(act, (t_coord){0, 0, l.l2, p.c3},
+			(t_coord){0, 0, l.l3, p.c4}));
 	else if (act.z <= l.l4)
-		return (gradient(act, (t_coord){0, 0, l.l3, COLOR_4},
-			(t_coord){0, 0, l.l4, COLOR_5}));
+		return (gradient(act, (t_coord){0, 0, l.l3, p.c4},
+			(t_coord){0, 0, l.l4, p.c5}));
 	else
-		return (gradient(act, (t_coord){0, 0, l.l4, COLOR_5},
-			(t_coord){0, 0, max_z, 0xFFFFFF}));
+		return (gradient(act, (t_coord){0, 0, l.l4, p.c5},
+			(t_coord){0, 0, max_z, p.c6}));
 }
 
-void	color_gradient(t_grid *map)
+void	color_gradient(t_grid *map, int palette_id)
 {
 	int			i;
 	t_coord		*act;
-	t_limits	limits;
+	t_palette	p;
 
-	limits = calculate_limits(map->min_z, map->max_z);
+	p = get_palette(palette_id);
 	i = 0;
 	while (i < map->axis_x * map->axis_y)
 	{
 		act = map->arr + i;
-		act->color = get_color_by_z(*act, map->min_z, map->max_z, limits);
+		act->color = get_color_by_z(*act, map->min_z, map->max_z, p);
 		i++;
 	}
 }

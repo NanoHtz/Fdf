@@ -26,7 +26,8 @@ int	loop_hook(t_core *content)
 	offset.z = 0;
 	if (content->ani_flag)
 		rot_y(-0.01, content->render_map);
-	draw_map(&content->canvas, map, offset);
+	draw_horizontal_lines(&content->canvas, map, offset);
+	draw_vertical_lines(&content->canvas, map, offset);
 	mlx_put_image_to_window(content->mlx, content->window,
 		content->canvas.mlx_img, 0, 0);
 	render_instructions(content, WHITE);
@@ -37,9 +38,9 @@ int	key_hook1(int keysym, t_core *content)
 {
 	if (keysym == XK_Escape)
 		close_app(content);
-	if (keysym == XK_equal)
+	if (keysym == XK_z)
 		zoom(content->render_map, 1.2);
-	if (keysym == XK_minus)
+	if (keysym == XK_x)
 		zoom(content->render_map, 1 / 1.2);
 	if (keysym == XK_Left)
 		translate(content->render_map, (t_coord){-10, 0, 0, 0});
@@ -60,6 +61,13 @@ int	key_hook1(int keysym, t_core *content)
 
 int	key_hook2(int keysym, t_core *content)
 {
+	if (keysym == XK_n)
+	{
+		content->palette_id = !content->palette_id;
+		restore_map(content);
+		isometric(content->render_map);
+		scale(content->render_map);
+	}
 	if (keysym == XK_d)
 		rot_y(-0.1, content->render_map);
 	if (keysym == XK_a)

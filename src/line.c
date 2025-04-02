@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 20:28:34 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/01 12:21:18 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:51:22 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	draw_line_low(t_img *img, t_coord start, t_coord end)
 	cur = start;
 	while (cur.x < end.x)
 	{
-		img_pix_put(img, cur);
+		my_pixel_put(img, cur);
 		if (err > 0)
 			cur.y += yi;
 		if (err > 0)
@@ -57,7 +57,7 @@ int	draw_line_high(t_img *img, t_coord start, t_coord end)
 	cur = start;
 	while (cur.y < end.y)
 	{
-		img_pix_put(img, cur);
+		my_pixel_put(img, cur);
 		if (err > 0)
 			cur.x += xi;
 		if (err > 0)

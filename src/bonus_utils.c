@@ -25,13 +25,14 @@ void	restore_map(t_core *content)
 	content->render_map->i = (t_coord){1, 0, 0, 0x0};
 	content->render_map->j = (t_coord){0, 1, 0, 0x0};
 	content->render_map->k = (t_coord){0, 0, 1, 0x0};
+	color_gradient(content->render_map, content->palette_id);
 }
 
 void	scale_z(t_core *content, float_t factor)
 {
 	t_mrot	scale_z;
 	t_mrot	tmp;
-	t_grid			*map;
+	t_grid	*map;
 
 	map = content->render_map;
 	tmp = (t_mrot){map->i.x, map->i.y, map->i.z,
@@ -59,18 +60,20 @@ void	translate(t_grid *map, t_coord offset)
 
 void	render_instructions(t_core *content, int color)
 {
-	mlx_string_put(content->mlx, content->window, 30, 30,
-		color, "Zoom: Keypad +, -");
-	mlx_string_put(content->mlx, content->window, 30, 50,
+	mlx_string_put(content->mlx, content->window, WIN_W - 1250, WIN_H - 30,
+		color, "Zoom: Keypad z, x");
+	mlx_string_put(content->mlx, content->window, WIN_W - 1100, WIN_H - 30,
 		color, "Translate: Up, Down, Left, Right");
-	mlx_string_put(content->mlx, content->window, 30, 70,
+	mlx_string_put(content->mlx, content->window, WIN_W - 850, WIN_H - 30,
 		color, "Rotate: W, A, S, D");
-	mlx_string_put(content->mlx, content->window, 30, 90,
+	mlx_string_put(content->mlx, content->window, WIN_W - 700, WIN_H - 30,
 		color, "Change Height: J, K");
-	mlx_string_put(content->mlx, content->window, 30, 110,
+	mlx_string_put(content->mlx, content->window, WIN_W - 500, WIN_H - 30,
 		color, "Reset Isometric View: R");
-	mlx_string_put(content->mlx, content->window, 30, 130,
+	mlx_string_put(content->mlx, content->window, WIN_W - 300, WIN_H - 30,
 		color, "Top View: T");
-	mlx_string_put(content->mlx, content->window, 30, 150,
+	mlx_string_put(content->mlx, content->window, WIN_W - 200, WIN_H - 30,
 		color, "Animate: Space");
+	mlx_string_put(content->mlx, content->window, WIN_W - 100, WIN_H - 30,
+		color, "Color mode: N");
 }
