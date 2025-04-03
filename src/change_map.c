@@ -21,11 +21,11 @@ t_grid	*change_map(t_mrot rot, t_grid *map)
 	while (i < map->axis_x * map->axis_y)
 	{
 		act = map->arr + i;
-		*act = vector_multiplication(rot, *act);
+		*act = mult_vec(rot, *act);
 		i++;
 	}
-	map->i = vector_multiplication(rot, map->i);
-	map->j = vector_multiplication(rot, map->j);
-	map->k = vector_multiplication(rot, map->k);
+	map->i = mult_vec(rot, map->i);
+	map->j = mult_vec(rot, map->j);
+	map->k = mult_vec(rot, map->k);
 	return (map);
 }

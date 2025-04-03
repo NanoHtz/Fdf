@@ -6,7 +6,7 @@
 #    By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/08 14:04:17 by fgalvez-          #+#    #+#              #
-#    Updated: 2025/04/01 20:07:46 by fgalvez-         ###   ########.fr        #
+#    Updated: 2025/04/03 11:33:04 by fgalvez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,6 @@ CFLAGSMINILIBX = -L minilibx-linux -lmlx -lXext -lX11 -lm
 DEBUGGER = -g3
 RM = rm -f
 NORMINETTE = norminette
-
-ifeq ($(BONUS),1)
-	MLX = src/mlx_bonus.c src/bonus_utils.c
-	SOURCES = $(filter-out src/mlx.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
-else
-	MLX = src/mlx.c
-	SOURCES = $(filter-out src/mlx_bonus.c src/bonus_utils.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
-endif
 
 # ========================= DIRECTORIOS Y ARCHIVOS =========================== #
 
@@ -43,7 +35,16 @@ SOURCES.h = $(wildcard $(DIR_FDF)/*.c) \
            $(wildcard $(DIR_LIBFT)/*.c) \
            $(wildcard $(DIR_GNL)/*.c)
 
-SOURCES = $(filter-out src/mlx.c src/mlx_bonus.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
+ifeq ($(BONUS),1)
+	MLX = src/mlx_bonus.c src/bonus_utils.c src/controls_bonus.c src/bonus_utils_2.c
+	SOURCES = $(filter-out src/mlx.c src/controls.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
+else
+	MLX = src/mlx.c src/controls.c
+	SOURCES = $(filter-out src/mlx_bonus.c src/bonus_utils.c src/controls_bonus.c src/bonus_utils_2.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
+endif
+
+
+#SOURCES = $(filter-out src/mlx_bonus.c src/controls_bonus.c, $(wildcard $(DIRSOURCE)*.c)) $(MLX)
 SRCS        = $(sort $(SOURCES) $(SOURCES.h))
 
 OBJSDIR     = ./obj/
@@ -114,3 +115,6 @@ n:
 	@echo "\n"
 	@echo "${GREEN}[✔] Norminette completa.${RESET}\n"
 
+print-sources:
+	@echo "Compilando con BONUS = $(BONUS)"
+	@echo "SOURCES = $(SOURCES)"

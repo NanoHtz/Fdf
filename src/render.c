@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 15:58:42 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/02 13:25:09 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/03 09:28:53 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	draw_horizontal_lines(t_img *img, t_grid *map, t_coord offset)
 		if ((i + 1) % map->axis_x != 0)
 		{
 			act = map->arr + i;
-			point = vec_add(*act, offset);
-			neighbour_right = vec_add(*(act + 1), offset);
-			draw_line(img, point, neighbour_right);
+			point = sum_vec(*act, offset);
+			neighbour_right = sum_vec(*(act + 1), offset);
+			draw_bresenham(img, point, neighbour_right);
 		}
 		i++;
 	}
@@ -60,27 +60,35 @@ void	draw_vertical_lines(t_img *img, t_grid *map, t_coord offset)
 	while (i < map->axis_x * (map->axis_y - 1))
 	{
 		act = map->arr + i;
-		point = vec_add(*act, offset);
-		neighbour_down = vec_add(*(act + map->axis_x), offset);
-		draw_line(img, point, neighbour_down);
+		point = sum_vec(*act, offset);
+		neighbour_down = sum_vec(*(act + map->axis_x), offset);
+		draw_bresenham(img, point, neighbour_down);
 		i++;
 	}
 }
 
-void	render_background(t_img *img, int color)
+void	fill_row(t_img *img, int y, int color)
 {
-	int	i;
-	int	j;
+	int		x;
+	t_coord	point;
 
-	i = 0;
-	while (i < WIN_H)
+	x = 0;
+	while (x < WIN_W)
 	{
-		j = 0;
-		while (j < WIN_W)
-		{
-			my_pixel_put(img, (t_coord){j, i, 0, color});
-			j++;
-		}
-		i++;
+		point = (t_coord){x, y, 0, color};
+		my_pixel_put(img, point);
+		x++;
+	}
+}
+
+void	fill_layer(t_img *img, int color)
+{
+	int	y;
+
+	y = 0;
+	while (y < WIN_H)
+	{
+		fill_row(img, y, color);
+		y++;
 	}
 }

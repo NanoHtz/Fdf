@@ -44,7 +44,7 @@ void	scale_z(t_core *content, float_t factor)
 	change_map(tmp, map);
 }
 
-void	translate(t_grid *map, t_coord offset)
+void	move(t_grid *map, t_coord offset)
 {
 	int		i;
 	t_coord	*cur;
@@ -53,23 +53,23 @@ void	translate(t_grid *map, t_coord offset)
 	while (i < map->axis_x * map->axis_y)
 	{
 		cur = map->arr + i;
-		*cur = vec_add(*cur, offset);
+		*cur = sum_vec(*cur, offset);
 		i++;
 	}
 }
 
-void	render_instructions(t_core *content, int color)
+void	display_menu(t_core *content, int color)
 {
 	mlx_string_put(content->mlx, content->window, WIN_W - 1250, WIN_H - 30,
-		color, "Zoom: Keypad z, x");
+		color, "Zoom: z, x");
 	mlx_string_put(content->mlx, content->window, WIN_W - 1100, WIN_H - 30,
 		color, "Translate: Up, Down, Left, Right");
 	mlx_string_put(content->mlx, content->window, WIN_W - 850, WIN_H - 30,
 		color, "Rotate: W, A, S, D");
 	mlx_string_put(content->mlx, content->window, WIN_W - 700, WIN_H - 30,
-		color, "Change Height: J, K");
+		color, "Height: J, K");
 	mlx_string_put(content->mlx, content->window, WIN_W - 500, WIN_H - 30,
-		color, "Reset Isometric View: R");
+		color, "Isometric View: R");
 	mlx_string_put(content->mlx, content->window, WIN_W - 300, WIN_H - 30,
 		color, "Top View: T");
 	mlx_string_put(content->mlx, content->window, WIN_W - 200, WIN_H - 30,

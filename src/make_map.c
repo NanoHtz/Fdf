@@ -6,32 +6,36 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:11:43 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/02 12:25:02 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:54:19 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-t_grid	*save_original_map(t_core *content)
+t_grid	*save_grid(t_core *core)
 {
-	t_coord	*act;
+	int		total;
 	int		i;
+	t_coord	*ptr;
 
-	content->map_backup = malloc(sizeof(t_grid));
-	if (content->map_backup == NULL)
+	core->map_backup = malloc(sizeof(t_grid));
+	if (!core->map_backup)
 		return (NULL);
-	content->map_backup->arr = malloc(content->render_map->axis_x
-			* content->render_map->axis_y * sizeof(t_coord));
-	if (content->map_backup->arr == NULL)
-		return (NULL);
-	i = 0;
-	while (i < content->render_map->axis_x * content->render_map->axis_y)
+	total = core->render_map->axis_x * core->render_map->axis_y;
+	core->map_backup->arr = malloc(sizeof(t_coord) * total);
+	if (!core->map_backup->arr)
 	{
-		act = content->render_map->arr + i;
-		*(content->map_backup->arr + i) = *act;
+		free(core->map_backup);
+		return (NULL);
+	}
+	i = 0;
+	while (i < total)
+	{
+		ptr = &core->render_map->arr[i];
+		core->map_backup->arr[i] = *ptr;
 		i++;
 	}
-	return (content->map_backup);
+	return (core->map_backup);
 }
 
 t_grid	*make_map(t_core *content)
@@ -58,6 +62,6 @@ t_grid	*make_map(t_core *content)
 	map->dist = 10;
 	points_on_map(content, map);
 	color_gradient(map, content->palette_id);
-	save_original_map(content);
+	save_grid(content);
 	return (map);
 }

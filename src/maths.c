@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mates.c                                            :+:      :+:    :+:   */
+/*   maths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 20:26:17 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/01 19:44:13 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/03 10:59:01 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Inc/fdf/fdf.h"
 
-t_coord	vector_multiplication(t_mrot matrix, t_coord point)
+float	add(float a, float b)
+{
+	return (a + b);
+}
+
+float	subtract(float a, float b)
+{
+	return (a - b);
+}
+
+t_coord	mult_vec(t_mrot matrix, t_coord point)
 {
 	t_coord	r;
 
@@ -23,24 +33,24 @@ t_coord	vector_multiplication(t_mrot matrix, t_coord point)
 	return (r);
 }
 
-t_coord	vec_add(t_coord pt1, t_coord pt2)
+t_coord	sum_vec(t_coord point1, t_coord point2)
 {
 	t_coord	sum;
 
-	sum.x = pt1.x + pt2.x;
-	sum.y = pt1.y + pt2.y;
-	sum.z = pt1.z + pt2.z;
-	sum.color = pt1.color;
+	sum.x = add(point1.x, point2.x);
+	sum.y = add(point1.y, point2.y);
+	sum.z = add(point1.z, point2.z);
+	sum.color = point1.color;
 	return (sum);
 }
 
-t_coord	vec_sub(t_coord pt1, t_coord pt2)
+t_coord	diff_vec(t_coord point1, t_coord point2)
 {
 	t_coord	diff;
 
-	diff.x = pt1.x - pt2.x;
-	diff.y = pt1.y - pt2.y;
-	diff.z = pt1.z - pt2.z;
-	diff.color = pt1.color;
+	diff.x = subtract(point1.x, point2.x);
+	diff.y = subtract(point1.y, point2.y);
+	diff.z = subtract(point1.z, point2.z);
+	diff.color = point1.color;
 	return (diff);
 }
