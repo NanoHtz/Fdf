@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 14:46:30 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/03 11:04:15 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/04 18:06:14 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,8 +150,8 @@ void		setup_hooks(t_core *con);
 int			get_color_by_z(t_coord act, int min_z, int max_z, t_palette p);
 int			gradient(t_coord act, t_coord base, t_coord final);
 void		init_canvas(t_img *canvas, void *mlx);
-float_t		percent(int base, int final, int act);
-int			calc_color(int base, int final, float_t percent);
+float_t		get_percentage(int base, int final, int act);
+int			interpolate_color(int base, int final, float_t percent);
 void		isometric(t_grid *map);
 void		restart(t_core *content);
 void		rot_y(float_t angle, t_grid *map);
@@ -181,6 +181,7 @@ int			draw_bresenham(t_img *img, t_coord start, t_coord end);
 int			draw_l(t_img *img, t_coord start, t_coord end);
 int			draw_h(t_img *img, t_coord start, t_coord end);
 int			make_color(t_coord act, t_coord base, t_coord final, t_coord gamma);
+void		rotate_canonic(t_grid *grid, t_mrot rot);
 t_grid		*change_map(t_mrot rot, t_grid *map);
 void		scale_z(t_core *content, float_t factor);
 void		display_menu(t_core *content, int color);

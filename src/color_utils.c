@@ -12,22 +12,19 @@
 
 #include "../Inc/fdf/fdf.h"
 
-float_t	percent(int base, int final, int act)
+int	interpolate_color(int from, int to, float_t ratio)
 {
-	float_t	pos;
-	float_t	gamma;
-
-	gamma = final - base;
-	if (gamma == 0)
-		return (1.0);
-	pos = act - base;
-	return (pos / gamma);
+	return ((1 - ratio) * from + ratio * to);
 }
 
-int	calc_color(int base, int final, float_t percent)
+float_t	get_percentage(int min, int max, int current)
 {
-	int	color;
+	float_t	range;
+	float_t	position;
 
-	color = (1 - percent) * base + percent * final;
-	return (color);
+	range = max - min;
+	if (range == 0)
+		return (1.0);
+	position = current - min;
+	return (position / range);
 }

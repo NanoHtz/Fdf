@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/29 12:11:43 by fgalvez-          #+#    #+#             */
-/*   Updated: 2025/04/03 10:54:19 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/04 17:54:32 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ t_grid	*make_map(t_core *content)
 	t_grid		*map;
 
 	map = content->render_map;
-	map->max_z = 0;
-	map->min_z = 0;
 	map->i = (t_coord){1, 0, 0, 0x0};
 	map->j = (t_coord){0, 1, 0, 0x0};
 	map->k = (t_coord){0, 0, 1, 0x0};
+	map->max_z = 0;
+	map->min_z = 0;
 	if (map->axis_x <= 0 || map->axis_y <= 0)
 	{
 		ft_putstr_fd("Error: Invalid map dimensions.\n", 2);

@@ -12,6 +12,13 @@
 
 #include "../Inc/fdf/fdf.h"
 
+void	rotate_canonic(t_grid *grid, t_mrot rot)
+{
+	grid->i = mult_vec(rot, grid->i);
+	grid->j = mult_vec(rot, grid->j);
+	grid->k = mult_vec(rot, grid->k);
+}
+
 t_grid	*change_map(t_mrot rot, t_grid *map)
 {
 	t_coord	*act;
@@ -24,8 +31,6 @@ t_grid	*change_map(t_mrot rot, t_grid *map)
 		*act = mult_vec(rot, *act);
 		i++;
 	}
-	map->i = mult_vec(rot, map->i);
-	map->j = mult_vec(rot, map->j);
-	map->k = mult_vec(rot, map->k);
+	rotate_canonic(map, rot);
 	return (map);
 }

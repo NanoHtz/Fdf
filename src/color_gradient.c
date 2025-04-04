@@ -6,7 +6,7 @@
 /*   By: fgalvez- <fgalvez-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 12:09:34 by frafal            #+#    #+#             */
-/*   Updated: 2025/04/02 13:29:01 by fgalvez-         ###   ########.fr       */
+/*   Updated: 2025/04/03 19:51:22 by fgalvez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	gradient(t_coord act, t_coord base, t_coord final)
 	int		blue;
 	float_t	percentage;
 
-	percentage = percent(fabsf(base.z), fabsf(final.z), fabsf(act.z));
-	red = calc_color((base.color >> 16) & 0xFF,
+	percentage = get_percentage(fabsf(base.z), fabsf(final.z), fabsf(act.z));
+	red = interpolate_color((base.color >> 16) & 0xFF,
 			(final.color >> 16) & 0xFF, percentage);
-	green = calc_color((base.color >> 8) & 0xFF,
+	green = interpolate_color((base.color >> 8) & 0xFF,
 			(final.color >> 8) & 0xFF, percentage);
-	blue = calc_color(base.color & 0xFF, final.color & 0xFF, percentage);
+	blue = interpolate_color(base.color & 0xFF, final.color & 0xFF, percentage);
 	return ((red << 16) | (green << 8) | blue);
 }
 
