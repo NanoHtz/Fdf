@@ -1,6 +1,3 @@
-En powershell dentro de comparison:
-	java -jar jplag.jar -l c/c++ com -r results
-
 Main:(Demasiado parecido)
 	->Primero tenemos la estructura content.
 	->Comprobación de argumentos Mensaje de error si pones otra cosa que no sean dos argumentos.
