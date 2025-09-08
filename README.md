@@ -21,7 +21,7 @@
 
 **FdF** carga un **mapa de alturas** (`.fdf`) y lo renderiza en una **ventana** usando **MiniLibX**.  
 Cada número del fichero representa la altitud (`z`) de un punto en una malla regular; opcionalmente, cada punto puede tener un **color** en hexadecimal (`z,0xRRGGBB`).  
-El programa proyecta el mapa a 2D (isométrica/ortográfica), dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y permite **interacción**: zoom, rotación, traslación, escala de alturas, cambiar proyecciones y paletas.
+El programa dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y permite **interacción**: zoom, rotación, traslación, escala de alturas, cambiar proyecciones y paletas.
 
 ---
 
@@ -29,17 +29,13 @@ El programa proyecta el mapa a 2D (isométrica/ortográfica), dibuja los **segme
 ## 🧩 ¿Para qué?
 
 **¿Qué se aprende?**
-- **Gráficos 2D básicos** con MiniLibX: ventana, imagen en memoria, `mlx_put_image_to_window`.
 - **Algoritmos clásicos**: **Bresenham** para líneas, proyección **isométrica** y ortográfica.
 - **Transformaciones geométricas**: rotaciones/traslaciones/escalados en 3D.
 - **Parsing robusto**: lectura de ficheros `.fdf`, validación y manejo de colores (`0xRRGGBB`).
 - **Diseño de engine** sencillo: doble buffer, *repaint* tras eventos, separación de estado y vista.
-- **Buenas prácticas**: gestión de memoria/recursos, manejo de errores, Norminette.
 
 ---
 
 <a id="explicacion"></a>
 <details>
   <summary><h3>📝 Explicación</h3></summary>
-
-### 🗂️ Estructura (sugerida)
