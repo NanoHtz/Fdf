@@ -6,7 +6,8 @@
 <p align="center"><i>🗺️ FdF — Visualizador de mapas de alturas en 3D con proyección isométrica/ortográfica usando MiniLibX, algoritmo de Bresenham, zoom, rotaciones y gradientes de color.</i></p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/NanoHtz/Assets/main/fdf/fdf.gif" alt="Demostración del proyecto" width="800">
+    <img src="https://github.com/NanoHtz/Assets/blob/main/fdf/fdf.gif?raw=1"
+       alt="Demostración del proyecto FdF" width="800">
 </p>
 
 ---
