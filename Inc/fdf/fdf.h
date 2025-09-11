@@ -12,8 +12,8 @@
 
 #ifndef FDF_H
 # define FDF_H
-# define WIN_W	2000 //1920 Altura Centro, 960 portatil
-# define WIN_H	1000 //998 ANCHURA CENTRO, 499 portatil
+# define WIN_W	960 //1920 Altura Centro, 960 portatil
+# define WIN_H	499 //998 ANCHURA CENTRO, 499 portatil
 # define WHITE 0xEAEAEA //Blanco
 # define PURPLE 0x00FF0000
 # define BLACK 0x020202 //Blanco

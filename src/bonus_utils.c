@@ -74,6 +74,6 @@ void	display_menu(t_core *content, int color)
 		color, "Top View: T");
 	mlx_string_put(content->mlx, content->window, WIN_W - 200, WIN_H - 30,
 		color, "Animate: Space");
-	mlx_string_put(content->mlx, content->window, WIN_W - 100, WIN_H - 30,
+	mlx_string_put(content->mlx, content->window, WIN_W - 1400, WIN_H - 30,
 		color, "Color mode: N");
 }
