@@ -55,5 +55,23 @@ El programa dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y
 ---
 
 <a id="explicacion"></a>
-<details>
+
   <summary><h3>📝 Explicación</h3></summary>
+
+### 🧠 Ideas clave
+---
+
+<a id="compilacion"></a>
+## 🛠️ Compilación
+⬇️ Descarga
+```bash
+git clone https://github.com/NanoHtz/fdf.git
+```
+🏗️ Makefile
+```bash
+make          # compila ./push_swap
+make clean    # borra .o
+make fclean   # borra .o y binarios
+make re       # recompila desde cero
+```
+🏗️ Pruebas
