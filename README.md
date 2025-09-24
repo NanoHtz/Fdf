@@ -10,6 +10,10 @@
        alt="Demostración del proyecto FdF" width="800">
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/NanoHtz/Assets/main/125.png" alt="fdf nota" height="120">
+</p>
+
 ---
 
 ## Índice
@@ -27,6 +31,15 @@
 **FdF** carga un **mapa de alturas** (`.fdf`) y lo renderiza en una **ventana** usando **MiniLibX**.  
 Cada número del fichero representa la altitud (`z`) de un punto en una malla regular; opcionalmente, cada punto puede tener un **color** en hexadecimal (`z,0xRRGGBB`).  
 El programa dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y permite **interacción**: zoom, rotación, traslación, escala de alturas, cambiar proyecciones y paletas.
+
+> Este proyecto sigue la **Norma oficial de 42** para estilo en C (Norminette).
+> En todos los proyectos de 42, el uso de la gran mayoria de bibliotecas esta prohibido, siendo nuestro propio desarrollo libft el sustituto de las funciones básicas. 
+> - Código legible.  
+> - Funciones pequeñas (<25 líneas),
+> - 4 parámetros por función,
+> - Nombres claros en `snake_case` y en inglés.
+> - 1 responsabilidad por función.
+>  - Variables declaradas al inicio del bloque(maximo 4 por función). 
 
 ---
 
