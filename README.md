@@ -84,3 +84,19 @@ Utiliza el formato ./fdf + ruta al mapa.
 ./fdf maps/42.fdf
 ```
 Tienes los mapas necesarios en maps/
+
+
+## 🎮 Controles
+```md
+### Controles
+| Acción                | Teclas/ratón          |
+|----------------------|------------------------|
+| Mover (pan)          | ← → ↑ ↓                |
+| Zoom                 | `+` / `-` o rueda      |
+| Rotar X/Y/Z          | `Q/E`, `W/S`, `A/D`    |
+| Proyección           | `I` (isométrica), `O` (ortográfica) |
+| Escala de alturas    | `Z` / `X`              |
+| Paleta/gradiente     | `C`                    |
+| Reset vista          | `R`                    |
+| Salir                | `Esc` o cerrar ventana |
+
