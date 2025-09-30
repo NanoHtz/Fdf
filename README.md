@@ -94,7 +94,7 @@ Tienes los mapas necesarios en maps/
 | Mover (pan)          | ← → ↑ ↓                |
 | Zoom                 | `+` / `-` o rueda      |
 | Rotar X/Y/Z          | `Q/E`, `W/S`, `A/D`    |
-| Proyección           | `I` (isométrica), `O` (ortográfica) |
+| Proyección           | `I` (isométrica)       |
 | Escala de alturas    | `Z` / `X`              |
 | Paleta/gradiente     | `C`                    |
 | Reset vista          | `R`                    |
