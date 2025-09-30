@@ -42,6 +42,7 @@ El programa dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y
 >  - Variables declaradas al inicio del bloque(maximo 4 por función). 
 
 ---
+Necesitas integrar la libreria de minilibx desarrollada por 42paris: https://github.com/42paris/minilibx-linux
 
 <a id="para-que"></a>
 ## 🧩 ¿Para qué?
