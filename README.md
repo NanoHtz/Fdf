@@ -43,6 +43,8 @@ El programa dibuja los **segmentos** entre puntos adyacentes con **Bresenham** y
 
 ---
 Necesitas integrar la libreria de minilibx desarrollada por 42paris: https://github.com/42paris/minilibx-linux
+<br>
+Además necesitaras la libft, propia del common core de 42: https://github.com/NanoHtz/Libft
 
 <a id="para-que"></a>
 ## 🧩 ¿Para qué?
