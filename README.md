@@ -61,20 +61,26 @@ Además necesitaras la libft, propia del common core de 42: https://github.com/N
 
   <summary><h3>📝 Explicación</h3></summary>
 
-  ### Pipeline de render
-1. Parseo a matriz `z` (+ colores opcionales)
-2. Proyección (iso/orto) → coordenadas 2D
-3. Conexión por aristas con **Bresenham**
-4. Color: por z o por gradiente entre vértices
-5. Doble buffer y blit en cada evento
+<a id="explicacion"></a>
+## 📝 Explicación (visión general)
 
-### Proyecciones
-- **Isométrica**: ángulos 30°/35.264°; sensación 3D sin perspectiva.
-- **Ortográfica**: útil para depurar alturas y alineaciones.
+**Qué hace por dentro (a alto nivel):**
+- **Lee el mapa**: convierte el mapa en una unica linea, conviertiendo los `\n` en ` ` ,cada número es una altura (`z`). Opcionalmente, daremos color a cada punto.
+- **Prepara la escena**: centra la malla, aplica un **zoom** y una **escala de alturas** para que sea visible.
+- **Coloca la cámara**: rota el modelo para verlo “en 3D” y elige una **proyección**.
+- **Traza líneas**: une cada punto con sus vecinos usando un algoritmo entero (Bresenham), evitando dientes de sierra y sin usar *floats*.
+- **Pinta en un imagen**: dibuja todo en memoria y luego lo vuelca a la ventana (sin parpadeos).
+- **Responde al usuario**: teclas/ratón permiten mover, rotar, hacer zoom, cambiar proyección o color.
 
-### Bresenham + Gradientes
-- Enteros, sin floats; eficiente.
-- Interpolación de color por paso (si hay colores por punto).
+**Conceptos que pone en práctica:**
+- **Geometría básica**: traslaciones, escalados y rotaciones.
+- **Proyección**: cómo pasar de 3D a 2D de forma estable y legible.
+- **Rasterización**: dibujar segmentos con precisión y rendimiento.
+- **Diseño simple de engine**: separar datos, vista y eventos.
+
+**Resultado esperado:**  
+Un mapa legible, estable, con controles básicos para explorar el relieve y con colores que ayuden a interpretar alturas. Es una herramienta didáctica y una buena carta de presentación de tus bases en C y gráficos.
+
 
 
 ### 🧠 Ideas clave
