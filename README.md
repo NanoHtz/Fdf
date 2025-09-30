@@ -61,6 +61,22 @@ Además necesitaras la libft, propia del common core de 42: https://github.com/N
 
   <summary><h3>📝 Explicación</h3></summary>
 
+  ### Pipeline de render
+1. Parseo a matriz `z` (+ colores opcionales)
+2. Proyección (iso/orto) → coordenadas 2D
+3. Conexión por aristas con **Bresenham**
+4. Color: por z o por gradiente entre vértices
+5. Doble buffer y blit en cada evento
+
+### Proyecciones
+- **Isométrica**: ángulos 30°/35.264°; sensación 3D sin perspectiva.
+- **Ortográfica**: útil para depurar alturas y alineaciones.
+
+### Bresenham + Gradientes
+- Enteros, sin floats; eficiente.
+- Interpolación de color por paso (si hay colores por punto).
+
+
 ### 🧠 Ideas clave
 ---
 
@@ -77,11 +93,12 @@ make clean    # borra .o
 make fclean   # borra .o y binarios
 make re       # recompila desde cero
 ```
-🧪 Uso
+## 🧪 Uso
 Utiliza el formato ./fdf + ruta al mapa.
 <br>
 ```bash
 ./fdf maps/42.fdf
+./fdf maps/pyrenees.fdf 
 ```
 Tienes los mapas necesarios en maps/
 
