@@ -1,6 +1,6 @@
 <!-- ===================== BANNER ===================== -->
 <p align="center">
-  <img src="https://raw.githubusercontent.com/NanoHtz/Assets/main/fdf/banner.svg" alt="Philosophers banner">
+  <img src="https://raw.githubusercontent.com/NanoHtz/Assets/main/fdf/banner.svg" alt="Fdf banner">
 </p>
 
 <p align="center"><i>🗺️ FdF — Visualizador de mapas de alturas en 3D con proyección isométrica/ortográfica usando MiniLibX, algoritmo de Bresenham, zoom, rotaciones y gradientes de color.</i></p>
@@ -69,9 +69,15 @@ git clone https://github.com/NanoHtz/fdf.git
 ```
 🏗️ Makefile
 ```bash
-make          # compila ./push_swap
+make          # compila ./fdf
 make clean    # borra .o
 make fclean   # borra .o y binarios
 make re       # recompila desde cero
 ```
-🏗️ Pruebas
+🧪 Uso
+Utiliza el formato ./fdf + ruta al mapa.
+<br>
+```bash
+./fdf maps/42.fdf
+```
+Tienes los mapas necesarios en maps/
